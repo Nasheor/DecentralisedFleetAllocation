@@ -1,0 +1,64 @@
+(01) Simulation Information.
+    - One line of text, containing tuple(A, B, C), where:
+    * A. Integer. city_max_x_location
+    * B. Integer. city_max_y_location
+    * C. Integer. simulation_time_horizon
+
+(02) SECs information.
+    - First line. Num_SECs. Integer. Number of SECs in the city.
+    - Next Num_SECs lines contain tuple(A, B, C), where:
+    * A. Integer. SEC_id
+    * B. Integer. SEC_x_location
+    * C. Integer. SEC_y_location
+
+(03) SECs Neighbor information.
+    - First line. Total_Num_Connections. Integer. Number of Connections in the city.
+    - Next Total_Num_Connections lines contain tuple(A, B), where:
+    * A. Integer. SEC_id
+    * B. Integer. NEIGHBOR_SEC_ID
+
+(04) EVs information.
+    - First line. Num_EVs. Integer. Number of EVs in the city.
+    - Next Num_EVs blocks of lines represent the information of each EV.
+      Each block of lines consists of:
+        - First line. static_EV_info, represented as the tuple(A, B, C, D, E), where:
+        * A. Integer. EV_id.
+        * B. Integer. SEC_id.
+        * C. Integer. EV_release_time.
+        * D. Integer. EV_battery_energy.
+        * E. Integer. EV_max_passengers.
+        - Second line. Schedule_Num_Movs. Integer. A number of movements of the schedule.
+        - Next Schedule_Num_Movs representing each move of the schedule,
+          as the tuple( TA, TB, AX, AY, BX, BY, PS, PE, ES, EE, TL, LW, TD ), where:
+           (00) TA. Integer => Time of the start of the movement.
+           (01) TB. Integer => Time of the end of the movement.
+           (02) AX. Integer => X-axis of the position at the start of the movement.
+           (03) AY. Integer => Y-axis of the position at the start of the movement.
+           (04) BX. Integer => X-axis of the position at the end of the movement.
+           (05) BY. Integer => Y-axis of the position at the end of the movement.
+           (06) PS. Integer => Number of passengers at the start of the movement.
+           (07) PE. Integer => Number of passengers at the end of the movement.
+           (08) ES. Integer => Battery left at the start of the movement.
+           (09) EE. Integer => Battery left at the end of the movement.
+           (10) TL. Integer => Movement label.
+           (11) LW. Integer => Leeway or time the movement can be delayed.
+           (12) TD. Integer => Movement distance covered.
+
+(05) TPs information.
+    - First line. Num_TPs. Integer. Number of TPs in the simulation.
+    - Next Num_TPs blocks of lines represent the information of each TP.
+        - First line, containing the tuple(A, B, C), where:
+        * A. Integer. Tp_Id.
+        * B. Integer. SEC_Id, represents the SEC the passenger of the TP belongs to.
+        * C. Integer. EV_id it is allocated to (-1) if not allocated to any TP.
+        - Second line, containing the tuple( LB, SX, SY, TX, TY, EP, LP, ED, UB ), where:
+           (00) LB. Integer => Time the trip petition is launched / announced.
+           (01) SX. Integer => X-axis of the pick-up position.
+           (02) SY. Integer => Y-axis of the pick-up position.
+           (03) TX. Integer => X-axis of the drop-off position.
+           (04) TY. Integer => Y-axis of the drop-up position.
+           (05) EP. Integer => Time of the early pick-up of the trip petition.
+           (06) LP. Integer => Time of the late pick-up of the trip petition.
+           (07) ED. Integer => Time of the early drop-off of the trip petition.
+           (08) UB. Integer => Time of the late drop-off of the trip petition.
+
