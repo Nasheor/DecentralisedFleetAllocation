@@ -11,7 +11,8 @@ import time
 def parse_initial_data():
 
     # Read the Input file
-    file = './ride_sharing_framework/2_Instances/Instance_to_solve/d_metropolis.in'
+    file = './ride_sharing_framework/2_Instances/Metropolis/Instance_to_solve/d_metropolis.in'
+    # file = './ride_sharing_framework/2_Instances/NYC/Instance_to_solve/input.in'
     (city, SECs, neighbors, EVs, TPs, TDs) = parse_in.parse_in(file)
     print(f"City Dimensions: {city[0]}X{city[1]}")
     # Getting the number of Vehicles and TPs for each SEC at the start of the simulation
@@ -58,7 +59,7 @@ def parse_initial_data():
 
     # Reading the solutions file for getting the number of trips satisfied and energy consumed
     # solutions_file = './ride_sharing_framework/4_Solutions/2_Instance_Subproblem_Solutions/subproblem_solutions.csv'
-    solutions_file = './ride_sharing_framework/4_Solutions/subproblem_solutions.csv'
+    solutions_file = './ride_sharing_framework/4_Solutions/Metropolis/subproblem_solutions.csv'
     requests_satisfied_data = {}
     with codecs.open(solutions_file, "r", encoding='utf-8') as f:
         data = f.readlines()
@@ -90,12 +91,8 @@ if __name__ == '__main__':
     num_days = [5]
     # episodes = [10]
     # num_days = [10]
-    paths = ['./output/trips_environment/metropolis/',
-             # './output/energy_environment/metropolis/',
-             './output/deep_trips_environment/metropolis_terminal/',
-             # './output/deep_energy_environment/metropolis/',
-            ]
-    # paths = ['./output/ccmomarl_environment']
+    paths = ['./output/trips_environment/metropolis/normal_configs/Instance_1_42_connections/' ]
+    optimal_paths = ['./output/trips_environment/metropolis/good_configs/Instance_1_42_connections/']
 
     for path in paths:
         if os.path.exists(path):
@@ -120,6 +117,7 @@ if __name__ == '__main__':
 
                     start_time = time.time()
                     path = paths[0]+file_name
+                    optimal_path = optimal_paths[0]+file_name
                     trips_env = TripsEnvironment(episode, num_day, communities, num_evs,
                                                  requests_satisfied_data, total_trips, total_energy, normal_total_trips_satisfied)
                     trips_env.compute_initial_states_and_rewards()
@@ -127,7 +125,7 @@ if __name__ == '__main__':
                     trips_env.run(alpha, gamma, epsilon)
                     end_time = time.time()
                     elapsed_time = end_time - start_time
-                    trips_env.print_results(path, elapsed_time)
+                    trips_env.print_results(path, optimal_path, elapsed_time)
                     #
                     # start_time = time.time()
                     # path = paths[1]+file_name
