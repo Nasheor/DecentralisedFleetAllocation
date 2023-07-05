@@ -25,7 +25,6 @@ class TripsEnvironment:
         self.states = []
         self.rewards = {}
         self.q_table = []
-        # self.normal_total_trips_satisfied = normal_total_trips_satisfied
 
     def compute_initial_states_and_rewards(self):
         for community in self.communities:
@@ -66,14 +65,13 @@ class TripsEnvironment:
             community.set_trips(self.petitions_satisfied_energy_consumed[from_community_key][0])
             total_trips_satisfied += self.petitions_satisfied_energy_consumed[from_community_key][0]
             total_energy_consumed += self.petitions_satisfied_energy_consumed[from_community_key][1]
-            print(f"Commmunity ID: {community.get_state()['id']}")
-            print(f"Available Vehicles: {community.get_state()['available_vehicles']}")
-            print(f"Total Trips: {community.get_state()['total_trips']}\tTrips Satisfied: {community.get_state()['trips_satisfied']}")
-            print(f"Energy Consumed: {self.petitions_satisfied_energy_consumed[from_community_key][1]}")
-            print(f"------------------------------------------------------------------\n")
-        print(f"Total Trips Satisfied: {total_trips_satisfied}")
-        print(f"Total Energy Consumed: {total_energy_consumed}")
-
+        #     print(f"Commmunity ID: {community.get_state()['id']}")
+        #     print(f"Available Vehicles: {community.get_state()['available_vehicles']}")
+        #     print(f"Total Trips: {community.get_state()['total_trips']}\tTrips Satisfied: {community.get_state()['trips_satisfied']}")
+        #     print(f"Energy Consumed: {self.petitions_satisfied_energy_consumed[from_community_key][1]}")
+        #     print(f"------------------------------------------------------------------\n")
+        # print(f"Total Trips Satisfied: {total_trips_satisfied}")
+        # print(f"Total Energy Consumed: {total_energy_consumed}")
 
     def get_total_trips_satisfied_with_current_config(self):
         total_trips_satisfied = 0
@@ -199,6 +197,8 @@ class TripsEnvironment:
         #     my_output_stream.write(f"\t\t\tTotal Trips Satisfied: {total_trips_satisfied}\n")
         #     my_output_stream.write(f"\t\t\tTotal Energy Consumed: {total_energy_consumed}\n")
         #     my_output_stream.write(f"------------------------------------------------------------------\n")
+        #     total_trips_satisfied = 0
+        #     total_energy_consumed = 0
         #     for community in self.best_config_communities:
         #         from_community_key = 'SEC_' + str(community.get_state()['id']) + "_num_EVs_" + str(community.get_state()['available_vehicles'])
         #         my_output_stream.write(f"Commmunity ID: {community.get_state()['id']}\n")
@@ -213,7 +213,7 @@ class TripsEnvironment:
         #     my_output_stream.write(f"\t\t\tTotal Energy Consumed: {n_total_energy_consumed}\n")
 
         # Constraint for good confogs for Metropolis Dataset
-        if self.best_config_trips_satisfied > 5000:
+        if self.best_config_trips_satisfied > 5150:
             my_output_stream = codecs.open(optimal_path, "w", encoding="utf-8")
             my_output_stream.write(f"Generating {path} took {elapsed_time} seconds\n")
             total_trips_satisfied = 0
@@ -251,8 +251,8 @@ class TripsEnvironment:
                     f"Energy Consumed: {self.petitions_satisfied_energy_consumed[from_community_key][1]}\n")
                 my_output_stream.write(f"------------------------------------------------------------------\n")
 
-        my_output_stream.write(f"\t\t\tTotal Trips Satisfied: {total_trips_satisfied}\n")
-        my_output_stream.write(f"\t\t\tTotal Energy Consumed: {total_energy_consumed}\n")
+            my_output_stream.write(f"\t\t\tTotal Trips Satisfied: {total_trips_satisfied}\n")
+            my_output_stream.write(f"\t\t\tTotal Energy Consumed: {total_energy_consumed}\n")
 
 
     def reset(self):
