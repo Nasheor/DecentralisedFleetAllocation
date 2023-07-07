@@ -135,6 +135,7 @@ class TripsEnvironment:
                         total_vehicles = from_community_ev + to_community_ev
                         max_petitions = 0
                         key = ()
+                        # Dividing the total vehicles available in the two communities to maximise trips satisfied
                         for v in range(1, total_vehicles + 1):
                             j = total_vehicles - v
                             if j > 0 and v < 50:

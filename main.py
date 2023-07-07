@@ -86,7 +86,7 @@ if __name__ == '__main__':
     # alphas = [0.3]
     # gammas = [0.8]
     epsilon = 0.1
-    episodes = [ 15, 20]
+    episodes = [5, 15, 20]
     # episodes = [5]
     num_days = [5]
     # episodes = [10]
@@ -151,10 +151,10 @@ if __name__ == '__main__':
                     #                                       state_size, action_size,
                     #                                       total_trips, total_energy,
                     #                                       csv_path, alpha, gamma, normal_total_trips_satisfied)
-                    # deep_trips_env.run()
+                    # deep_trips_env.run(alpha, gamma, epsilon)
                     # end_time = time.time()
                     # elapsed_time = end_time - start_time
-                    # deep_trips_env.print_results(path, elapsed_time)
+                    # deep_trips_env.print_results(path,optimal_path, elapsed_time)
 
                     # csv_path = paths[3]+csv_file
                     # path = paths[3]+file_name
@@ -164,9 +164,9 @@ if __name__ == '__main__':
                     #                                       requests_satisfied_data,
                     #                                       state_size, action_size,
                     #                                         total_trips, total_energy,
-                    #                                         csv_path)
-                    # deep_energy_env.run()
-                    # deep_energy_env.print_results(path)
+                    #                                         csv_path, alpha, gamma, normal_total_trips_satisfied)
+                    # deep_energy_env.run(alpha, gamma, epsilon)
+                    # deep_energy_env.print_results(path,optimal_path, elapsed_time)
 
                     # path = paths[4]+file_name
                     # path = paths[0]
