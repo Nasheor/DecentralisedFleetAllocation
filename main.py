@@ -117,29 +117,29 @@ if __name__ == '__main__':
                         normal_total_trips_satisfied += requests_satisfied_data[from_community_key][0]
                         normal_total_energy_consumed += requests_satisfied_data[from_community_key][1]
 
-                    # start_time = time.time()
-                    # path = paths[0]+file_name
-                    # optimal_path = optimal_paths[0]+file_name
-                    # trips_env = TripsEnvironment(episode, num_day, communities, num_evs,
-                    #                              requests_satisfied_data, total_trips, total_energy, normal_total_trips_satisfied)
-                    # trips_env.compute_initial_states_and_rewards()
-                    # trips_env.compute_initial_trips_satisfied()
-                    # trips_env.run(alpha, gamma, epsilon)
-                    # end_time = time.time()
-                    # elapsed_time = end_time - start_time
-                    # trips_env.print_results(path, optimal_path, elapsed_time)
-
                     start_time = time.time()
-                    path = paths[1]+file_name
-                    optimal_path = optimal_paths[1]+file_name
-                    energy_env = EnergyEnvironment(episode, num_day, communities, num_evs,
-                                                   requests_satisfied_data, total_trips, total_energy, normal_total_trips_satisfied)
-                    energy_env.compute_initial_states_and_rewards()
-                    energy_env.compute_initial_trips_satisfied()
-                    energy_env.run(alpha, gamma, epsilon)
+                    path = paths[0]+file_name
+                    optimal_path = optimal_paths[0]+file_name
+                    trips_env = TripsEnvironment(episode, num_day, communities, num_evs,
+                                                 requests_satisfied_data, total_trips, total_energy, normal_total_trips_satisfied)
+                    trips_env.compute_initial_states_and_rewards()
+                    trips_env.compute_initial_trips_satisfied()
+                    trips_env.run(alpha, gamma, epsilon)
                     end_time = time.time()
                     elapsed_time = end_time - start_time
-                    energy_env.print_results(path, optimal_path, elapsed_time)
+                    trips_env.print_results(path, optimal_path, elapsed_time)
+
+                    # start_time = time.time()
+                    # path = paths[1]+file_name
+                    # optimal_path = optimal_paths[1]+file_name
+                    # energy_env = EnergyEnvironment(episode, num_day, communities, num_evs,
+                    #                                requests_satisfied_data, total_trips, total_energy, normal_total_trips_satisfied)
+                    # energy_env.compute_initial_states_and_rewards()
+                    # energy_env.compute_initial_trips_satisfied()
+                    # energy_env.run(alpha, gamma, epsilon)
+                    # end_time = time.time()
+                    # elapsed_time = end_time - start_time
+                    # energy_env.print_results(path, optimal_path, elapsed_time)
 
                     # start_time = time.time()
                     # csv_path = paths[2]+csv_file

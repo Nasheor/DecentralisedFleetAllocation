@@ -26,7 +26,7 @@ import compute_neighbors
 constraints = {
     'secs': [262],
     'tps': [50000],
-    'evs': [ 10.0, 100.0],
+    'evs': [ 40.0],
     'sys_energy': [10.0],
     'flexiblity': [25],
     'connections':[261, 600, 1600]
@@ -52,9 +52,9 @@ def writeToFile(time_horizon, grid_size, secs, evs, passengers, petitions, energ
                     str(ev_factor)+'_EV-FACTOR_'+str(len(evs))+'_EV_'+\
               str(flexiblity)+'_FLEX_'+str(len(petitions))+"_TPS_"+str(connections)+"_CONNECTIONS.txt"
 
-    excelfile = './analysis/'+str(dispatch_mode)+'_'+str(len(secs))+'_SEC_'+str(sys_energy)+'_ENERGY_'+\
-                    str(ev_factor)+'_EV-FACTOR_'+str(len(evs))+'_EV_'+\
-              str(flexiblity)+'_FLEX_'+str(len(petitions))+"_TPS_"+str(connections)+"_CONNECTIONS.xlsx"
+    # excelfile = './analysis/'+str(dispatch_mode)+'_'+str(len(secs))+'_SEC_'+str(sys_energy)+'_ENERGY_'+\
+    #                 str(ev_factor)+'_EV-FACTOR_'+str(len(evs))+'_EV_'+\
+    #           str(flexiblity)+'_FLEX_'+str(len(petitions))+"_TPS_"+str(connections)+"_CONNECTIONS.xlsx"
 
     outstream = codecs.open(outfile, "w", encoding="utf-8")
     outstream.write(str(grid_size)+" "+str(grid_size)+" "+str(time_horizon)+"\n")
@@ -97,7 +97,7 @@ def writeToFile(time_horizon, grid_size, secs, evs, passengers, petitions, energ
         analysis_data.loc[len(analysis_data)] = row
         outstream.write(p_str)
 
-    analysis_data.to_excel(excelfile, index=False)
+    # analysis_data.to_excel(excelfile, index=False)
 
 
 def calculateManhattanDistance(pickup_x, pickup_y, drop_x, drop_y):
