@@ -106,14 +106,14 @@ def compute_instance_subproblem_solutions(input_folder,
 if __name__ == '__main__':
     # 1. We get the name of the input and output folder
     # Metropoli Step 2
-    input_folder = "../../4_Solutions/Metropolis/1_Instance_Subproblems/"
-    output_folder = '../../4_Solutions/Metropolis/2_Instance_Subproblem_Solutions/'
-    solution_file_name = "subproblem_solutions_metropolis.csv"
+    # input_folder = "../../4_Solutions/Metropolis/1_Instance_Subproblems/"
+    # output_folder = '../../4_Solutions/Metropolis/2_Instance_Subproblem_Solutions/'
+    # solution_file_name = "subproblem_solutions_metropolis.csv"
 
     # NYC Step 2
-    # input_folder = "../../4_Solutions/NYC/1_Instance_Subproblems/"
-    # output_folder = '../../4_Solutions/NYC/2_Instance_Subproblem_Solutions/'
-    # solution_file_name = "subproblem_solutions_nyc.csv"
+    input_folder = "../../4_Solutions/NYC/1_Instance_Subproblems/"
+    output_folder = '../../4_Solutions/NYC/2_Instance_Subproblem_Solutions/'
+    solution_file_name = "subproblem_solutions_nyc.csv"
 
     if (len(sys.argv) > 1):
         input_folder = sys.argv[1]
