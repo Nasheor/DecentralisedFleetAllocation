@@ -187,7 +187,6 @@ def compute_negotiation_EV_2_SEC_allocation(input_file_name_subproblem_solutions
 
     # 1. If the output folder already exists, we remove it and re-create it
     if os.path.exists(output_folder):
-        os.chmod(path, 0o777)
         shutil.rmtree(output_folder)
     os.mkdir(output_folder)
 
@@ -244,18 +243,16 @@ def compute_negotiation_EV_2_SEC_allocation(input_file_name_subproblem_solutions
 # ---------------------------------------------------------------
 if __name__ == '__main__':
     # 1. We read the instance content
-    input_file_name_subproblem_solutions = "../../4_Solutions/Metropolis/2_Instance_Subproblem_Solutions/subproblem_solutions_metropolis.csv"
-    input_file_name_SEC_negotiation_schedule = "../../4_Solutions/Metropolis/4_Instance_Optimal_SEC_Negotiation_Schedule/optimal_SEC_negotiation_schedule.csv"
-    output_folder = "../../4_Solutions/Metropolis/5_Instance_SEC_Negotiation_EV_2_SEC_Allocation/"
-
-    # Uncomment for NYC
-    # input_file_name_subproblem_solutions = "../../4_Solutions/NYC/2_Instance_Subproblem_Solutions/subproblem_solutions_metropolis.csv"
-    # input_file_name_SEC_negotiation_schedule = "../../4_Solutions/NYC/4_Instance_Optimal_SEC_Negotiation_Schedule/optimal_SEC_negotiation_schedule.csv"
-    # output_folder = "../../4_Solutions/NYC/5_Instance_SEC_Negotiation_EV_2_SEC_Allocation/"
-
-
+    # input_file_name_subproblem_solutions = "../../4_Solutions/Metropolis/2_Instance_Subproblem_Solutions/subproblem_solutions.csv"
+    # input_file_name_SEC_negotiation_schedule = "../../4_Solutions/Metropolis/4_Instance_Optimal_SEC_Negotiation_Schedule/optimal_SEC_negotiation_schedule.csv"
+    # output_folder = "../../4_Solutions/Metropolis/5_Instance_SEC_Negotiation_EV_2_SEC_Allocation/"
     solution_file_SEC_negotiation_EV_2_SEC_allocation = "SEC_negotiation_EV_2_SEC_allocation.csv"
     solution_file_SEC_negotiation_log = "SEC_negotiation_log.csv"
+
+    # NYC
+    input_file_name_subproblem_solutions = "../../4_Solutions/NYC/2_Instance_Subproblem_Solutions/subproblem_solutions.csv"
+    input_file_name_SEC_negotiation_schedule = "../../4_Solutions/NYC/4_Instance_Optimal_SEC_Negotiation_Schedule/optimal_SEC_negotiation_schedule.csv"
+    output_folder = "../../4_Solutions/NYC/5_Instance_SEC_Negotiation_EV_2_SEC_Allocation/"
     time_limit = 60
 
     if (len(sys.argv) > 1):

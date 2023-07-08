@@ -23,90 +23,82 @@
 import sys
 import time
 #
-import step_1_generate_instance_subproblems
-import step_2_compute_instance_subproblem_solutions
-import step_3_compute_optimal_EV_2_SEC_allocation
-import step_4_compute_optimal_SEC_negotiation_schedule
-import step_5_compute_SEC_negotiation_solution
+import step_1_generate_and_solve_instance_subproblems
+import step_2_compute_optimal_EV_2_SEC_allocation
+import step_3_compute_optimal_SEC_negotiation_schedule
+import step_4_compute_SEC_negotiation_solution
 
 
 # ------------------------------------------
 # FUNCTION 01 - my_main
 # ------------------------------------------
 def my_main(input_file_name,
-            step_1_folder,
+            step_1_folder_1,
+            step_1_folder_2,
+            step_1_file_name,
             step_2_folder,
             step_2_file_name,
+            step_2_mip_time_limit,
             step_3_folder,
             step_3_file_name,
             step_3_mip_time_limit,
             step_4_folder,
-            step_4_file_name,
-            step_4_mip_time_limit,
-            step_5_folder,
-            step_5_file_name_1,
-            step_5_file_name_2
+            step_4_file_name_1,
+            step_4_file_name_2
            ):
 
     # 0. We start the timer
     start_time = time.time()
 
-    # 1. Step 1 => We generate the instance subproblems
+    # 1. Step 1 => We generate and solve the instance subproblems
     new_step_start_time = time.time()
 
-    step_1_generate_instance_subproblems.generate_instance_subproblems(input_file_name, step_1_folder)
+    step_1_generate_and_solve_instance_subproblems.generate_and_solve_instance_subproblems(input_file_name,
+                                                                                           step_1_folder_1,
+                                                                                           step_1_folder_2,
+                                                                                           step_1_file_name
+                                                                                          )
 
     new_step_total_time = time.time() - new_step_start_time
     print("Step 1 total time = " + str(new_step_total_time))
 
-    # 2. Step 2 => We compute the instance subproblem solutions
+    # 2. Step 2 => We compute the optimal EV_2_SEC allocation
     new_step_start_time = time.time()
 
-    step_2_compute_instance_subproblem_solutions.compute_instance_subproblem_solutions(step_1_folder,
-                                                                                       step_2_folder,
-                                                                                       step_2_file_name
-                                                                                      )
+    step_2_compute_optimal_EV_2_SEC_allocation.compute_optimal_EV_2_SEC_allocation(step_1_folder_2 + step_1_file_name,
+                                                                                   step_2_folder,
+                                                                                   step_2_file_name,
+                                                                                   step_2_mip_time_limit
+                                                                                  )
 
     new_step_total_time = time.time() - new_step_start_time
     print("Step 2 total time = " + str(new_step_total_time))
 
-    # 3. Step 3 => We compute the optimal EV_2_SEC allocation
+    # 3. Step 3 => We compute the optimal SEC negotiation schedule
     new_step_start_time = time.time()
 
-    step_3_compute_optimal_EV_2_SEC_allocation.compute_optimal_EV_2_SEC_allocation(step_2_folder + step_2_file_name,
-                                                                                   step_3_folder,
-                                                                                   step_3_file_name,
-                                                                                   step_3_mip_time_limit
-                                                                                  )
+    step_3_compute_optimal_SEC_negotiation_schedule.compute_optimal_SEC_negotiation_schedule(input_file_name,
+                                                                                             step_3_folder,
+                                                                                             step_3_file_name,
+                                                                                             step_3_mip_time_limit
+                                                                                            )
 
     new_step_total_time = time.time() - new_step_start_time
     print("Step 3 total time = " + str(new_step_total_time))
 
-    # 4. Step 4 => We compute the optimal SEC negotiation schedule
+    # 4. Step 4 => We perform the negotiation simulation
     new_step_start_time = time.time()
 
-    step_4_compute_optimal_SEC_negotiation_schedule.compute_optimal_SEC_negotiation_schedule(input_file_name,
-                                                                                             step_4_folder,
-                                                                                             step_4_file_name,
-                                                                                             step_4_mip_time_limit
-                                                                                            )
-
-    new_step_total_time = time.time() - new_step_start_time
-    print("Step 4 total time = " + str(new_step_total_time))
-
-    # 5. Step 5 => We perform the negotiation simulation
-    new_step_start_time = time.time()
-
-    step_5_compute_SEC_negotiation_solution.compute_negotiation_EV_2_SEC_allocation(step_2_folder + step_2_file_name,
-                                                                                    step_4_folder + step_4_file_name,
-                                                                                    step_5_folder,
-                                                                                    step_5_file_name_1,
-                                                                                    step_5_file_name_2,
-                                                                                    step_3_mip_time_limit
+    step_4_compute_SEC_negotiation_solution.compute_negotiation_EV_2_SEC_allocation(step_1_folder_2 + step_1_file_name,
+                                                                                    step_3_folder + step_3_file_name,
+                                                                                    step_4_folder,
+                                                                                    step_4_file_name_1,
+                                                                                    step_4_file_name_2,
+                                                                                    step_2_mip_time_limit
                                                                                    )
 
     new_step_total_time = time.time() - new_step_start_time
-    print("Step 5 total time = " + str(new_step_total_time))
+    print("Step 4 total time = " + str(new_step_total_time))
 
     # 6. We compute the total time
     total_time = time.time() - start_time
@@ -123,48 +115,48 @@ def my_main(input_file_name,
 if __name__ == '__main__':
     # 1. We read the instance content
     input_file_name = "../../2_Instances/Instance_to_solve/d_metropolis.in"
-    step_1_folder = "../../4_Solutions/1_Instance_Subproblems/"
-    step_2_folder = "../../4_Solutions/2_Instance_Subproblem_Solutions/"
-    step_2_file_name = "subproblem_solutions.csv"
-    step_3_folder = "../../4_Solutions/3_Instance_Optimal_EV_2_SEC_Allocation/"
-    step_3_file_name = "optimal_EV_2_SEC_allocation.csv"
-    step_3_mip_time_limit = 60
-    step_4_folder = "../../4_Solutions/4_Instance_Optimal_SEC_Negotiation_Schedule/"
-    step_4_file_name = "optimal_SEC_negotiation_schedule.csv"
-    step_4_mip_time_limit = 600
-    step_5_folder = "../../4_Solutions/5_Instance_SEC_Negotiation_EV_2_SEC_Allocation/"
-    step_5_file_name_1 = "SEC_negotiation_EV_2_SEC_allocation.csv"
-    step_5_file_name_2 = "SEC_negotiation_log.csv"
+    step_1_folder_1 = "../../4_Solutions/1_Instance_Subproblems/"
+    step_1_folder_2 = "../../4_Solutions/2_Instance_Subproblem_Solutions/"
+    step_1_file_name = "subproblem_solutions.csv"
+    step_2_folder = "../../4_Solutions/3_Instance_Optimal_EV_2_SEC_Allocation/"
+    step_2_file_name = "optimal_EV_2_SEC_allocation.csv"
+    step_2_mip_time_limit = 60
+    step_3_folder = "../../4_Solutions/4_Instance_Optimal_SEC_Negotiation_Schedule/"
+    step_3_file_name = "optimal_SEC_negotiation_schedule.csv"
+    step_3_mip_time_limit = 600
+    step_4_folder = "../../4_Solutions/5_Instance_SEC_Negotiation_EV_2_SEC_Allocation/"
+    step_4_file_name_1 = "SEC_negotiation_EV_2_SEC_allocation.csv"
+    step_4_file_name_2 = "SEC_negotiation_log.csv"
 
     # 1.1. If we want to call the program by terminal
     if (len(sys.argv) > 1):
         input_file_name = sys.argv[1]
-        step_1_folder = sys.argv[2]
-        step_2_folder = sys.argv[3]
-        step_2_file_name = sys.argv[4]
-        step_3_folder = sys.argv[5]
-        step_3_file_name = sys.argv[6]
-        step_3_mip_time_limit = int(sys.argv[7])
-        step_4_folder = sys.argv[8]
-        step_4_file_name = sys.argv[9]
-        step_4_mip_time_limit = int(sys.argv[10])
-        step_5_folder = sys.argv[11]
-        step_5_file_name_1 = sys.argv[12]
-        step_5_file_name_2 = sys.argv[13]
+        step_1_folder_1 = sys.argv[2]
+        step_1_folder_2 = sys.argv[3]
+        step_1_file_name = sys.argv[4]
+        step_2_folder = sys.argv[5]
+        step_2_file_name = sys.argv[6]
+        step_2_mip_time_limit = int(sys.argv[7])
+        step_3_folder = sys.argv[8]
+        step_3_file_name = sys.argv[9]
+        step_3_mip_time_limit = int(sys.argv[10])
+        step_4_folder = sys.argv[11]
+        step_4_file_name_1 = sys.argv[12]
+        step_4_file_name_2 = sys.argv[13]
 
     # 2. We call to my_main
     my_main(input_file_name,
-            step_1_folder,
+            step_1_folder_1,
+            step_1_folder_2,
+            step_1_file_name,
             step_2_folder,
             step_2_file_name,
+            step_2_mip_time_limit,
             step_3_folder,
             step_3_file_name,
             step_3_mip_time_limit,
             step_4_folder,
-            step_4_file_name,
-            step_4_mip_time_limit,
-            step_5_folder,
-            step_5_file_name_1,
-            step_5_file_name_2
+            step_4_file_name_1,
+            step_4_file_name_2
            )
 

@@ -21,11 +21,13 @@
 # IMPORTS
 # ------------------------------------------
 import misc
+import step_1_1_solve_instance
 #
 import sys
 import os
 import shutil
 import codecs
+import time
 
 
 # ------------------------------------------
@@ -108,37 +110,87 @@ def populate_subproblem_file(output_file_name,
     my_output_stream.close()
 
 
-# ---------------------------------------------
-# FUNCTION 02 - generate_instance_subproblems
-# ---------------------------------------------
-def generate_instance_subproblems(input_file_name, output_folder):
-    # 1. We parse the instance in
+# --------------------------------------------------------
+# FUNCTION 02 - generate_and_solve_instance_subproblems
+# --------------------------------------------------------
+def generate_and_solve_instance_subproblems(input_file_name,
+                                            output_step_1,
+                                            output_step_2,
+                                            solution_file_name
+                                           ):
+
+    # 1. We start the clock
+    start_time = time.time()
+
+    # 2. We parse the instance in
     (city, SECs, EVs, TPs, TDs) = misc.parse_in_original_instance(input_file_name)
 
     # 3. If the output folder already exists, we remove it and re-create it
-    # if os.path.exists(output_folder):
-    #     os.chmod(output_folder, 0o777)
-    #     shutil.rmtree(output_folder)
-    os.mkdir(output_folder)
+    if os.path.exists(output_step_1):
+        shutil.rmtree(output_step_1)
+    os.mkdir(output_step_1)
 
-    # 4. We create the folders and folders
+    # 4. If the output folder already exists, we remove it and re-create it
+    if os.path.exists(output_step_2):
+        shutil.rmtree(output_step_2)
+    os.mkdir(output_step_2)
+
+    # 5. We open a file called solution.csv for writing
+    solution_csv_stream = codecs.open(output_step_2 + solution_file_name, "w", encoding="utf-8")
+
+    # 6. We iterate the creation and solving of the subproblems
     for SEC_index in SECs:
-        # 4.1. We create the folder
+        # 6.1. We create the folders for the SEC (instance and solution)
         my_SEC_name = "SEC_" + str(SEC_index)
-        os.mkdir(output_folder + my_SEC_name)
+        os.mkdir(output_step_1 + my_SEC_name)
+        os.mkdir(output_step_2 + my_SEC_name)
 
-        # 4.2. We iterate in the number of EVs being used
+        # 6.2. We create a dummy number of trips satisfied
+        last_instance_trips_satisfied = -1
+        continue_solving = True
+
+        # 6.3. We iterate in the number of EVs being used
         for EV_index in EVs:
-            # 4.2.1. We create the file
-            output_file_name = output_folder + my_SEC_name + "/" + my_SEC_name + "_num_EVs_" + str(EV_index) + ".txt"
-            populate_subproblem_file(output_file_name,
-                                     city,
-                                     SECs,
-                                     EVs,
-                                     TPs,
-                                     SEC_index,
-                                     EV_index
-                                    )
+            # 6.3.1. We get the name of the instance and solution files
+            instance_file_name = output_step_1 + my_SEC_name + "/" + my_SEC_name + "_num_EVs_" + str(EV_index) + ".txt"
+            solution_file_name = output_step_1 + my_SEC_name + "/" + my_SEC_name + "_num_EVs_" + str(EV_index) + ".txt"
+
+            # 6.3.2. If continue_solving is True, we solve the instance
+            if (continue_solving == True):
+                # I. We create the instance subproblem file
+                populate_subproblem_file(instance_file_name,
+                                         city,
+                                         SECs,
+                                         EVs,
+                                         TPs,
+                                         SEC_index,
+                                         EV_index
+                                        )
+
+                # II. We solve the instance subproblem
+                try:
+                    num_trips_satisfied = step_1_1_solve_instance.solve_instance(instance_file_name, solution_file_name)
+                except:
+                    print(input_file_name + " failed")
+                    num_trips_satisfied = -1
+
+                # III. If the num_trips_satisfied does not improve the trips of the previous instance, we stop generating and solving the remaining subproblems for this SEC
+                if (num_trips_satisfied <= last_instance_trips_satisfied):
+                    continue_solving = False
+
+                # IV. We update the last_instance_trips_satisfied to the solution of the subproblem
+                last_instance_trips_satisfied = num_trips_satisfied
+
+            # 6.3.3. We write the result to the solution file
+            my_str = instance_file_name + ";" + str(last_instance_trips_satisfied) + "\n"
+            solution_csv_stream.write(my_str)
+
+    # 7. close the solution.csv file
+    solution_csv_stream.close()
+
+    # 8. We print the total time
+    total_time = time.time() - start_time
+    print("Total time = " + str(total_time))
 
 
 # --------------------------------------------------------
@@ -157,21 +209,26 @@ def generate_instance_subproblems(input_file_name, output_folder):
 # --------------------------------------------------------
 if __name__ == '__main__':
     # 1. We get the input parameters
-    # Uncomment for Metropolis 1 to 1 connection
     # input_file_name = "../../2_Instances/Metropolis/Instance_to_solve/d_metropolis.in"
-    # output_folder = "../../4_Solutions/Metropolis/1_Instance_Subproblems/"
+    # output_step_1 = "../../4_Solutions/Metropolis/1_Instance_Subproblems/"
+    # output_step_2 = "../../4_Solutions/Metropolis/2_Instance_Subproblem_Solutions/"
+    solution_file_name = "subproblem_solutions.csv"
 
-
-
-    # Uncomment for NYC 1 to 1 connection
+    # NYC Paths
     input_file_name = "../../2_Instances/NYC/Instance_to_solve/input.in"
-    output_folder = "../../4_Solutions/NYC/1_Instance_Subproblems/"
-
+    output_step_1 = "../../4_Solutions/NYC/1_Instance_Subproblems/"
+    output_step_2 = "../../4_Solutions/NYC/2_Instance_Subproblem_Solutions/"
 
     if (len(sys.argv) > 1):
         input_file_name = sys.argv[1]
-        output_folder = sys.argv[2]
+        output_step_1 = sys.argv[2]
+        output_step_2 = sys.argv[3]
+        solution_file_name = sys.argv[4]
 
     # 2. We call to the function my_main
-    generate_instance_subproblems(input_file_name, output_folder)
+    generate_and_solve_instance_subproblems(input_file_name,
+                                            output_step_1,
+                                            output_step_2,
+                                            solution_file_name
+                                           )
 

@@ -40,7 +40,6 @@ def compute_optimal_SEC_negotiation_schedule(input_file_name,
 
     # 1. If the output folder already exists, we remove it and re-create it
     if os.path.exists(output_folder):
-        os.chmod(path, 0o777)
         shutil.rmtree(output_folder)
     os.mkdir(output_folder)
 
@@ -101,13 +100,11 @@ def compute_optimal_SEC_negotiation_schedule(input_file_name,
 # ---------------------------------------------------------------
 if __name__ == '__main__':
     # 1. We read the instance content
-    input_file_name = "../../2_Instances/Metropolis/Instance_to_solve/d_metropolis.in"
-    output_folder = "../../4_Solutions/Metropolis/4_Instance_Optimal_SEC_Negotiation_Schedule/"
-
-    # Uncomment for NYC
-    # input_file_name = "../../2_Instances/NYC/Instance_to_solve/d_metropolis.in"
-    # output_folder = "../../4_Solutions/NYC/4_Instance_Optimal_SEC_Negotiation_Schedule/"
+    # input_file_name = "../../2_Instances/Metropolis/Instance_to_solve/d_metropolis.in"
+    # output_folder = "../../4_Solutions/Metropolis/4_Instance_Optimal_SEC_Negotiation_Schedule/"
     solution_file_name = "optimal_SEC_negotiation_schedule.csv"
+    input_file_name = "../../2_Instances/NYC/Instance_to_solve/input.in"
+    output_folder = "../../4_Solutions/NYC/4_Instance_Optimal_SEC_Negotiation_Schedule/"
     time_limit = 600
 
     if (len(sys.argv) > 1):

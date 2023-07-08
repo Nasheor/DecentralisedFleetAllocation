@@ -39,8 +39,8 @@ def compute_optimal_EV_2_SEC_allocation(input_file_name,
                                        ):
 
     # 1. If the output folder already exists, we remove it and re-create it
-    # if os.path.exists(output_folder):
-    #     shutil.rmtree(output_folder)
+    if os.path.exists(output_folder):
+        shutil.rmtree(output_folder)
     os.mkdir(output_folder)
 
     # 2. We parse the instance subproblem solutions file
@@ -91,16 +91,13 @@ def compute_optimal_EV_2_SEC_allocation(input_file_name,
 # --------------------------------------------------------
 if __name__ == '__main__':
     # 1. We get the input parameters
-    # Uncomment for Metropolis
-    input_file_name = "../../4_Solutions/Metropolis/2_Instance_Subproblem_Solutions/subproblem_solutions_metropolis.csv"
-    output_folder = "../../4_Solutions/Metropolis/3_Instance_Optimal_EV_2_SEC_Allocation/"
-
-    # Uncomment for NYC
-    # input_file_name = "../../4_Solutions/NYC/2_Instance_Subproblem_Solutions/subproblem_solutions_nyc.csv"
-    # output_folder = "../../4_Solutions/NYC/3_Instance_Optimal_EV_2_SEC_Allocation/"
-
+    # input_file_name = "../../4_Solutions/Metropolis/2_Instance_Subproblem_Solutions/subproblem_solutions.csv"
+    # output_folder = "../../4_Solutions/Metropolis/3_Instance_Optimal_EV_2_SEC_Allocation/"
     solution_file_name = "optimal_EV_2_SEC_allocation.csv"
     time_limit = 60
+
+    input_file_name = "../../4_Solutions/NYC/2_Instance_Subproblem_Solutions/subproblem_solutions.csv"
+    output_folder = "../../4_Solutions/NYC/3_Instance_Optimal_EV_2_SEC_Allocation/"
 
     if (len(sys.argv) > 1):
         input_file_name = sys.argv[1]

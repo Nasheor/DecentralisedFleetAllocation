@@ -26,7 +26,7 @@ import compute_neighbors
 constraints = {
     'secs': [262],
     'tps': [50000],
-    'evs': [ 40.0],
+    'evs': [ 100.0],
     'sys_energy': [10.0],
     'flexiblity': [25],
     'connections':[261, 600, 1600]

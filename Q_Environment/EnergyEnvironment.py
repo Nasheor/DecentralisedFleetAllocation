@@ -210,7 +210,7 @@ class EnergyEnvironment:
         #     my_output_stream.write(f"\t\t\tTotal Trips Satisfied: {total_trips_satisfied}\n")
         #     my_output_stream.write(f"\t\t\tTotal Energy Consumed: {total_energy_consumed}\n")
         # Constraint for good confogs for Metropolis Dataset
-        if self.best_config_trips_satisfied > 4700:
+        if self.best_config_trips_satisfied > 5000:
             my_output_stream = codecs.open(optimal_path, "w", encoding="utf-8")
             my_output_stream.write(f"Generating {path} took {elapsed_time} seconds\n")
             total_trips_satisfied = 0
