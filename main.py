@@ -81,8 +81,8 @@ if __name__ == '__main__':
         total_trips += trips
         total_energy += (ev * 100)
 
-    alphas = [0.1, 0.2, 0.3]
-    gammas = [0.7, 0.8, 0.9]
+    alphas = [ 0.2, 0.3]
+    gammas = [ 0.8, 0.9]
     # alphas = [0.3]
     # gammas = [0.8]
     epsilon = 0.1
@@ -93,9 +93,9 @@ if __name__ == '__main__':
     # num_days = [10]
     paths = ['./output/trips_environment/metropolis/normal_configs/Instance_1_47_connections/',
              './output/energy_environment/metropolis/good_configs/Instance_1_47_connections/',
-             './output/deep_trips_environment/metropolis/good_configs/Instance_1_47_connections/']
+             './output/deep_trips_environment/metropolis/good_configs/Instance_1_42_connections/']
     optimal_paths = ['./output/trips_environment/metropolis/good_configs/Instance_1_47_connections/',
-                     './output/deep_trips_environment/metropolis/good_configs/Instance_1_47_connections/']
+                     './output/deep_trips_environment/metropolis/good_configs/Instance_1_42_connections/']
 
     # for path in paths:
     #     if os.path.exists(path):
@@ -153,7 +153,7 @@ if __name__ == '__main__':
                                                           state_size, action_size,
                                                           total_trips, total_energy,
                                                           csv_path, alpha, gamma, normal_total_trips_satisfied)
-                    deep_trips_env.run(alpha, gamma, epsilon)
+                    deep_trips_env.run()
                     end_time = time.time()
                     elapsed_time = end_time - start_time
                     deep_trips_env.print_results(path,optimal_path, elapsed_time)
@@ -167,7 +167,7 @@ if __name__ == '__main__':
                     #                                       state_size, action_size,
                     #                                         total_trips, total_energy,
                     #                                         csv_path, alpha, gamma, normal_total_trips_satisfied)
-                    # deep_energy_env.run(alpha, gamma, epsilon)
+                    # deep_energy_env.run()
                     # deep_energy_env.print_results(path,optimal_path, elapsed_time)
 
                     # path = paths[4]+file_name
