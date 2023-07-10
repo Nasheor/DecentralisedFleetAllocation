@@ -93,9 +93,9 @@ if __name__ == '__main__':
     # num_days = [10]
     paths = ['./output/trips_environment/metropolis/normal_configs/Instance_1_47_connections/',
              './output/energy_environment/metropolis/good_configs/Instance_1_47_connections/',
-             './output/deep_trips_environment/metropolis/good_configs/Instance_1_42_connections/']
+             './output/deep_trips_environment/metropolis/good_configs/Instance_1_15_connections/']
     optimal_paths = ['./output/trips_environment/metropolis/good_configs/Instance_1_47_connections/',
-                     './output/deep_trips_environment/metropolis/good_configs/Instance_1_42_connections/']
+                     './output/deep_trips_environment/metropolis/good_configs/Instance_1_15_connections/']
 
     # for path in paths:
     #     if os.path.exists(path):
