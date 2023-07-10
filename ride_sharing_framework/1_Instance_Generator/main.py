@@ -26,10 +26,9 @@ import compute_neighbors
 constraints = {
     'secs': [262],
     'tps': [50000],
-    'evs': [ 10.0, 40.0],
+    'evs': [ 10.0, 40.0, 100],
     'sys_energy': [10.0],
     'flexiblity': [25],
-    'connections':[261, 600, 1600]
 }
 
 # constraints = {
@@ -106,10 +105,12 @@ def calculateManhattanDistance(pickup_x, pickup_y, drop_x, drop_y):
 
 def assignRealWorldConstraints(time_horizon, grid_size, num_sec, num_ev,
                       trip_rate, num_passengers, sys_energy, flexiblity,
-                               block_size, distances, mode, ev_factor, total_evs, connections):
+                               block_size, distances, mode, ev_factor, total_evs):
     print('Generating '+str(mode)+'_'+str(num_sec)+'_SEC_'+str(sys_energy)+'_ENERGY_'+\
                     str(ev_factor)+'_EV-FACTOR_'+str(total_evs)+'_EV_'+\
           str(flexiblity)+'_FLEX_'+str(num_passengers)+"_TPS_"+str(connections)+"_CONNECTIONS.txt")
+    # NYC Connections
+    connections = [261, 600, 1600]
     secs = []
     evs = []
     passengers = []
@@ -120,7 +121,7 @@ def assignRealWorldConstraints(time_horizon, grid_size, num_sec, num_ev,
     energy_required = 0
     pick_up_x, pick_up_y, drop_x, drop_y = 0, 0, 0, 0
     time = 0
-    communities, neighbors = compute_neighbors.divide_and_compute_neighbors(grid_size, num_sec, connections)
+    communities, neighbors = compute_neighbors.divide_and_compute_neighbors(grid_size, num_sec, connections[0])
     num_sec = len(communities)
     print(communities)
     print(neighbors)
@@ -197,7 +198,7 @@ def assignRealWorldConstraints(time_horizon, grid_size, num_sec, num_ev,
             else:
                 if total_energy_produced >= battery_capacity:
                     is_released = True
-                    release_time = 0
+                    release_time = 1
                     total_energy_produced -= battery_capacity
 
             if is_released is False:
@@ -205,9 +206,12 @@ def assignRealWorldConstraints(time_horizon, grid_size, num_sec, num_ev,
             evs.append(modal.Ev(sec_id, battery_capacity, ev_id,
                                 capacity, charge_per_block, release_time))
             total_ev += 1
-    writeToFile(time_horizon, grid_size, secs, evs, passengers, petitions,energy_required,
-                flexiblity, sys_energy, mode, ev_factor, total_evs, instance_level_energy_produced,connections,
-                neighbors)
+
+    for connection in connections:
+        communities, neighbors = compute_neighbors.divide_and_compute_neighbors(grid_size, num_sec, connection)
+        writeToFile(time_horizon, grid_size, secs, evs, passengers, petitions,energy_required,
+                    flexiblity, sys_energy, mode, ev_factor, total_evs, instance_level_energy_produced,connection,
+                    neighbors)
 
 
 def parseRealData(mode):
@@ -255,42 +259,41 @@ def parseRealData(mode):
             for ev_factor in constraints['evs']:
                 for flexiblity in constraints['flexiblity']:
                     for sys_energy in constraints['sys_energy']:
-                        for connections in constraints['connections']:
-                            grid_size = 1000
-                            raw_petitions = parsed_data.head(tp)
-                            raw_petitions = raw_petitions.reset_index(drop=False)
-                            num_sec = sec
-                            num_passengers = len(raw_petitions.index)
-                            total_distance = 0
-                            trip_rate = []
-                            distances = []
-                            for i, row in raw_petitions.iterrows():
-                                diff = datetime.datetime.combine(datetime.date.today(), row['pickup'].time()) - \
-                                       datetime.datetime.combine(datetime.date.today(), start_time.time())
-                                trip_rate.append(diff.total_seconds() - 3600)
-                                if row['trip_distance'] == 0:
-                                    distances.append(4)
-                                    total_distance += 4
-                                else:
-                                    distances.append(math.ceil(row['trip_distance']))
-                                    total_distance += math.ceil(row['trip_distance'])
-                            time_horizon = int(trip_rate[num_passengers-1])
-                            total_charge_rate = total_distance * ev_factor
-                            battery_capacity = grid_size
-                            num_ev = int(total_charge_rate/battery_capacity)
-                            ev_rate = int(num_ev/num_sec)
-                            if ev_rate == 0:
-                                ev_rate = 1
-                            evs = {}
-                            for i in range(num_sec):
-                                evs[i] = ev_rate
-                            assignRealWorldConstraints(time_horizon, grid_size, num_sec, evs, trip_rate,
-                                                       num_passengers, sys_energy, flexiblity,
-                                                       block_size, distances, mode, ev_factor, num_ev, connections)
+                        grid_size = 1000
+                        raw_petitions = parsed_data.head(tp)
+                        raw_petitions = raw_petitions.reset_index(drop=False)
+                        num_sec = sec
+                        num_passengers = len(raw_petitions.index)
+                        total_distance = 0
+                        trip_rate = []
+                        distances = []
+                        for i, row in raw_petitions.iterrows():
+                            diff = datetime.datetime.combine(datetime.date.today(), row['pickup'].time()) - \
+                                   datetime.datetime.combine(datetime.date.today(), start_time.time())
+                            trip_rate.append(diff.total_seconds() - 3600)
+                            if row['trip_distance'] == 0:
+                                distances.append(4)
+                                total_distance += 4
+                            else:
+                                distances.append(math.ceil(row['trip_distance']))
+                                total_distance += math.ceil(row['trip_distance'])
+                        time_horizon = int(trip_rate[num_passengers-1])
+                        total_charge_rate = total_distance * ev_factor
+                        battery_capacity = grid_size
+                        num_ev = int(total_charge_rate/battery_capacity)
+                        ev_rate = int(num_ev/num_sec)
+                        if ev_rate == 0:
+                            ev_rate = 1
+                        evs = {}
+                        for i in range(num_sec):
+                            evs[i] = ev_rate
+                        assignRealWorldConstraints(time_horizon, grid_size, num_sec, evs, trip_rate,
+                                                   num_passengers, sys_energy, flexiblity,
+                                                   block_size, distances, mode, ev_factor, num_ev)
 
 def main():
-        # modes = ['START', 'SPREAD']
-        modes = ['START']
+        modes = ['START', 'SPREAD']
+        # modes = ['START']
         for dispatch_mode in modes:
             parseRealData(dispatch_mode)
 
