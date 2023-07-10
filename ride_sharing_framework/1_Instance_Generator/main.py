@@ -106,9 +106,9 @@ def calculateManhattanDistance(pickup_x, pickup_y, drop_x, drop_y):
 def assignRealWorldConstraints(time_horizon, grid_size, num_sec, num_ev,
                       trip_rate, num_passengers, sys_energy, flexiblity,
                                block_size, distances, mode, ev_factor, total_evs):
-    print('Generating '+str(mode)+'_'+str(num_sec)+'_SEC_'+str(sys_energy)+'_ENERGY_'+\
-                    str(ev_factor)+'_EV-FACTOR_'+str(total_evs)+'_EV_'+\
-          str(flexiblity)+'_FLEX_'+str(num_passengers)+"_TPS_"+str(connections)+"_CONNECTIONS.txt")
+    # print('Generating '+str(mode)+'_'+str(num_sec)+'_SEC_'+str(sys_energy)+'_ENERGY_'+\
+    #                 str(ev_factor)+'_EV-FACTOR_'+str(total_evs)+'_EV_'+\
+    #       str(flexiblity)+'_FLEX_'+str(num_passengers)+"_TPS_"+str(connections)+"_CONNECTIONS.txt")
     # NYC Connections
     connections = [261, 600, 1600]
     secs = []
@@ -292,7 +292,7 @@ def parseRealData(mode):
                                                    block_size, distances, mode, ev_factor, num_ev)
 
 def main():
-        modes = ['START', 'SPREAD']
+        modes = ['SPREAD']
         # modes = ['START']
         for dispatch_mode in modes:
             parseRealData(dispatch_mode)
