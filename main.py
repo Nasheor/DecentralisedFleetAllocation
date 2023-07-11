@@ -81,8 +81,8 @@ if __name__ == '__main__':
         total_trips += trips
         total_energy += (ev * 100)
 
-    alphas = [ 0.2, 0.3]
-    gammas = [ 0.8, 0.9]
+    alphas = [ 0.1, 0.2, 0.3]
+    gammas = [ 0.7, 0.8, 0.9]
     # alphas = [0.3]
     # gammas = [0.8]
     epsilon = 0.1
