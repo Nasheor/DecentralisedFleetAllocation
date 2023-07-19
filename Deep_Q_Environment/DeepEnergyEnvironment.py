@@ -5,13 +5,15 @@ import tensorflow as tf
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.models import Sequential
+from collections import deque
+import copy
 import csv
 
 class DeepEnergyEnvironment(EnergyEnvironment):
     def __init__(self, episodes, num_time_steps, communities, num_evs, petitions_satisfied_energy_consumed,
-                 state_size, action_size, total_trips, total_energy, file_name):
+                 state_size, action_size, total_trips, total_energy, file_name, alpha, gamma, normal_total_trips_satisfied):
         super().__init__(episodes, num_time_steps, communities, num_evs, petitions_satisfied_energy_consumed,
-                         total_trips, total_energy)
+                         total_trips, total_energy, normal_total_trips_satisfied)
         self.state_size = state_size
         self.action_size = action_size
         self.memory = deque(maxlen=2000)  # Limited size memory for efficiency

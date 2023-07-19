@@ -210,46 +210,46 @@ class EnergyEnvironment:
         #     my_output_stream.write(f"\t\t\tTotal Trips Satisfied: {total_trips_satisfied}\n")
         #     my_output_stream.write(f"\t\t\tTotal Energy Consumed: {total_energy_consumed}\n")
         # Constraint for good confogs for Metropolis Dataset
-        if self.best_config_trips_satisfied > 5000:
-            my_output_stream = codecs.open(optimal_path, "w", encoding="utf-8")
-            my_output_stream.write(f"Generating {path} took {elapsed_time} seconds\n")
-            total_trips_satisfied = 0
-            total_energy_consumed = 0
-            for community in self.communities:
-                from_community_id = community.get_state()['id']
-                from_community_ev = community.get_state()['available_vehicles']
-                from_community_key = 'SEC_' + str(from_community_id) + "_num_EVs_" + str(from_community_ev)
-                community.set_trips(self.petitions_satisfied_energy_consumed[from_community_key][0])
-                total_trips_satisfied += self.petitions_satisfied_energy_consumed[from_community_key][0]
-                total_energy_consumed += self.petitions_satisfied_energy_consumed[from_community_key][1]
-                my_output_stream.write(f"Commmunity ID: {community.get_state()['id']}\n")
-                my_output_stream.write(f"Available Vehicles: {community.get_state()['available_vehicles']}\n")
-                my_output_stream.write(
-                    f"Total Trips: {community.get_state()['total_trips']}\tTrips Satisfied: {community.get_state()['trips_satisfied']}\n")
-                my_output_stream.write(
-                    f"Energy Consumed: {self.petitions_satisfied_energy_consumed[from_community_key][1]}\n")
-                my_output_stream.write(f"------------------------------------------------------------------\n")
-            my_output_stream.write(f"\t\t\tTotal Trips Satisfied: {total_trips_satisfied}\n")
-            my_output_stream.write(f"\t\t\tTotal Energy Consumed: {total_energy_consumed}\n")
+        # if self.best_config_trips_satisfied > 5000:
+        my_output_stream = codecs.open(optimal_path, "w", encoding="utf-8")
+        my_output_stream.write(f"Generating {path} took {elapsed_time} seconds\n")
+        total_trips_satisfied = 0
+        total_energy_consumed = 0
+        for community in self.communities:
+            from_community_id = community.get_state()['id']
+            from_community_ev = community.get_state()['available_vehicles']
+            from_community_key = 'SEC_' + str(from_community_id) + "_num_EVs_" + str(from_community_ev)
+            community.set_trips(self.petitions_satisfied_energy_consumed[from_community_key][0])
+            total_trips_satisfied += self.petitions_satisfied_energy_consumed[from_community_key][0]
+            total_energy_consumed += self.petitions_satisfied_energy_consumed[from_community_key][1]
+            my_output_stream.write(f"Commmunity ID: {community.get_state()['id']}\n")
+            my_output_stream.write(f"Available Vehicles: {community.get_state()['available_vehicles']}\n")
+            my_output_stream.write(
+                f"Total Trips: {community.get_state()['total_trips']}\tTrips Satisfied: {community.get_state()['trips_satisfied']}\n")
+            my_output_stream.write(
+                f"Energy Consumed: {self.petitions_satisfied_energy_consumed[from_community_key][1]}\n")
+            my_output_stream.write(f"------------------------------------------------------------------\n")
+        my_output_stream.write(f"\t\t\tTotal Trips Satisfied: {total_trips_satisfied}\n")
+        my_output_stream.write(f"\t\t\tTotal Energy Consumed: {total_energy_consumed}\n")
+        my_output_stream.write(f"------------------------------------------------------------------\n")
+
+        total_trips_satisfied = 0
+        total_energy_consumed = 0
+        for community in self.best_config_communities:
+            from_community_key = 'SEC_' + str(community.get_state()['id']) + "_num_EVs_" + str(
+                community.get_state()['available_vehicles'])
+            my_output_stream.write(f"Commmunity ID: {community.get_state()['id']}\n")
+            my_output_stream.write(f"Available Vehicles: {community.get_state()['available_vehicles']}\n")
+            total_trips_satisfied += community.get_state()['trips_satisfied']
+            total_energy_consumed += self.petitions_satisfied_energy_consumed[from_community_key][1]
+            my_output_stream.write(
+                f"Total Trips: {community.get_state()['total_trips']}\tTrips Satisfied: {community.get_state()['trips_satisfied']}\n")
+            my_output_stream.write(
+                f"Energy Consumed: {self.petitions_satisfied_energy_consumed[from_community_key][1]}\n")
             my_output_stream.write(f"------------------------------------------------------------------\n")
 
-            total_trips_satisfied = 0
-            total_energy_consumed = 0
-            for community in self.best_config_communities:
-                from_community_key = 'SEC_' + str(community.get_state()['id']) + "_num_EVs_" + str(
-                    community.get_state()['available_vehicles'])
-                my_output_stream.write(f"Commmunity ID: {community.get_state()['id']}\n")
-                my_output_stream.write(f"Available Vehicles: {community.get_state()['available_vehicles']}\n")
-                total_trips_satisfied += community.get_state()['trips_satisfied']
-                total_energy_consumed += self.petitions_satisfied_energy_consumed[from_community_key][1]
-                my_output_stream.write(
-                    f"Total Trips: {community.get_state()['total_trips']}\tTrips Satisfied: {community.get_state()['trips_satisfied']}\n")
-                my_output_stream.write(
-                    f"Energy Consumed: {self.petitions_satisfied_energy_consumed[from_community_key][1]}\n")
-                my_output_stream.write(f"------------------------------------------------------------------\n")
-
-            my_output_stream.write(f"\t\t\tTotal Trips Satisfied: {total_trips_satisfied}\n")
-            my_output_stream.write(f"\t\t\tTotal Energy Consumed: {total_energy_consumed}\n")
+        my_output_stream.write(f"\t\t\tTotal Trips Satisfied: {total_trips_satisfied}\n")
+        my_output_stream.write(f"\t\t\tTotal Energy Consumed: {total_energy_consumed}\n")
 
     def reset(self):
         self.q_communities = copy.deepcopy(self.communities)
