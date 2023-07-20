@@ -114,17 +114,23 @@ def my_main(input_file_name,
 # ---------------------------------------------------------------
 if __name__ == '__main__':
     # 1. We read the instance content
-    input_file_name = "../../2_Instances/Instance_to_solve/d_metropolis.in"
-    step_1_folder_1 = "../../4_Solutions/1_Instance_Subproblems/"
-    step_1_folder_2 = "../../4_Solutions/2_Instance_Subproblem_Solutions/"
+    # input_file_name = "../../2_Instances/Metropolis/Instance_to_solve/d_metropolis.in"
+    input_file_name = "../../2_Instances/NYC/Instance_to_solve/input.in"
+    # step_1_folder_1 = "../../4_Solutions/Metropolis/1_Instance_Subproblems/"
+    step_1_folder_1 = "../../4_Solutions/NYC/1_Instance_Subproblems/"
+    # step_1_folder_2 = "../../4_Solutions/Metropolis/2_Instance_Subproblem_Solutions/"
+    step_1_folder_2 = "../../4_Solutions/NYC/2_Instance_Subproblem_Solutions"
     step_1_file_name = "subproblem_solutions.csv"
-    step_2_folder = "../../4_Solutions/3_Instance_Optimal_EV_2_SEC_Allocation/"
+    # step_2_folder = "../../4_Solutions/Metropolis/3_Instance_Optimal_EV_2_SEC_Allocation/"
+    step_2_folder = "../../4_Solutions/NYC/3_Instance_Optimal_EV_2_SEC_Allocation/"
     step_2_file_name = "optimal_EV_2_SEC_allocation.csv"
     step_2_mip_time_limit = 60
-    step_3_folder = "../../4_Solutions/4_Instance_Optimal_SEC_Negotiation_Schedule/"
+    # step_3_folder = "../../4_Solutions/Metropolis/4_Instance_Optimal_SEC_Negotiation_Schedule/"
+    step_3_folder = "../../4_Solutions/NYC/4_Instance_Optimal_SEC_Negotiation_Schedule/"
     step_3_file_name = "optimal_SEC_negotiation_schedule.csv"
     step_3_mip_time_limit = 600
-    step_4_folder = "../../4_Solutions/5_Instance_SEC_Negotiation_EV_2_SEC_Allocation/"
+    # step_4_folder = "../../4_Solutions/Metropolis/5_Instance_SEC_Negotiation_EV_2_SEC_Allocation/"
+    step_4_folder = "../../4_Solutions/NYC/5_Instance_SEC_Negotiation_EV_2_SEC_Allocation/"
     step_4_file_name_1 = "SEC_negotiation_EV_2_SEC_allocation.csv"
     step_4_file_name_2 = "SEC_negotiation_log.csv"
 
