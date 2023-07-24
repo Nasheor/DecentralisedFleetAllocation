@@ -209,16 +209,16 @@ def generate_and_solve_instance_subproblems(input_file_name,
 # --------------------------------------------------------
 if __name__ == '__main__':
     # 1. We get the input parameters
-    # input_file_name = "../../2_Instances/Metropolis/Instance_to_solve/d_metropolis.in"
-    # output_step_1 = "../../4_Solutions/Metropolis/1_Instance_Subproblems/"
-    # output_step_2 = "../../4_Solutions/Metropolis/2_Instance_Subproblem_Solutions/"
+    input_file_name = "../../2_Instances/Metropolis/Instance_to_solve/d_metropolis.in"
+    output_step_1 = "../../4_Solutions/Metropolis/1_Instance_Subproblems/"
+    output_step_2 = "../../4_Solutions/Metropolis/2_Instance_Subproblem_Solutions/"
     solution_file_name = "subproblem_solutions.csv"
 
     # NYC Paths
-    input_file_name = "../../2_Instances/NYC/Instance_to_solve/input.in"
-    # output = "../../2_I"
-    output_step_1 = "../../4_Solutions/NYC/Instance_261_connections/1_Instance_Subproblems/"
-    output_step_2 = "../../4_Solutions/NYC/Instance_261_connections/2_Instance_Subproblem_Solutions/"
+    # input_file_name = "../../2_Instances/NYC/Instance_to_solve/input.in"
+    # # output = "../../2_I"
+    # output_step_1 = "../../4_Solutions/NYC/Instance_261_connections/1_Instance_Subproblems/"
+    # output_step_2 = "../../4_Solutions/NYC/Instance_261_connections/2_Instance_Subproblem_Solutions/"
 
     if (len(sys.argv) > 1):
         input_file_name = sys.argv[1]
