@@ -1,5 +1,5 @@
 # Multi-Agent Reinforcement Learning for Electric Vehicle Fleet Management
-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
+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
 
 This repository contains a collection of Python classes implementing multi-agent reinforcement learning (MARL) environments and agents to optimize the management of electric vehicle (EV) fleets. The primary objective is to maximize trip satisfaction while minimizing energy consumption in the system.
 
