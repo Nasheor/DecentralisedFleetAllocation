@@ -313,7 +313,7 @@ def parse_in_subproblem_instance(input_file_name):
         (tp_id, SEC_id, EV_id) = tuple(map(int, my_input_stream.readline().strip().split(" ")))
 
         # II. Rest of the trip info
-        info = tuple(map(int, my_input_stream.readline().strip().split(" ")))
+        info = tuple(map(int, my_input_stream.readline().strip().split(",")))
 
         # III. We enter the tp in the dictionary
         TPs[ tp_id ] = [ info, SEC_id, EV_id ]
