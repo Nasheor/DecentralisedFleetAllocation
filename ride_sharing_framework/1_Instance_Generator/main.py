@@ -26,9 +26,9 @@ import compute_neighbors
 constraints = {
     'secs': [262],
     'tps': [50000],
-    'evs': [1.0, 2.0],
+    'evs': [10.0],
     'sys_energy': [10.0],
-    'flexiblity': [0.01, 0.1, 0.5],
+    'flexiblity': [ 0.1, 0.5, 0.01],
 }
 
 # constraints = {
@@ -293,7 +293,7 @@ def parseRealData(mode):
 
 def main():
         # modes = ['SPREAD']
-        modes = ['SPREAD', 'START']
+        modes = ['START', 'SPREAD']
         for dispatch_mode in modes:
             parseRealData(dispatch_mode)
 
