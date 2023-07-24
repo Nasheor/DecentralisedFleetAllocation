@@ -216,8 +216,9 @@ if __name__ == '__main__':
 
     # NYC Paths
     input_file_name = "../../2_Instances/NYC/Instance_to_solve/input.in"
-    output_step_1 = "../../4_Solutions/NYC/1_Instance_Subproblems/"
-    output_step_2 = "../../4_Solutions/NYC/2_Instance_Subproblem_Solutions/"
+    # output = "../../2_I"
+    output_step_1 = "../../4_Solutions/NYC/Instance_261_connections/1_Instance_Subproblems/"
+    output_step_2 = "../../4_Solutions/NYC/Instance_261_connections/2_Instance_Subproblem_Solutions/"
 
     if (len(sys.argv) > 1):
         input_file_name = sys.argv[1]

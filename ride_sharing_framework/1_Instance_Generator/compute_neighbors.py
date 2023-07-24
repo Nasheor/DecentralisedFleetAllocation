@@ -75,8 +75,8 @@ def divide_and_compute_neighbors(n, k, connections):
             sec_id += 1
         else:
             sec_id = 1
-    print(total_connections)
-    print(connection_count)
+    # print(total_connections)
+    # print(connection_count)
     return communities, computed_neighbors
 
 

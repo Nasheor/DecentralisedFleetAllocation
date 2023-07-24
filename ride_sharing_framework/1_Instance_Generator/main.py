@@ -26,9 +26,9 @@ import compute_neighbors
 constraints = {
     'secs': [262],
     'tps': [50000],
-    'evs': [ 10.0, 40.0, 100],
+    'evs': [1.0, 2.0],
     'sys_energy': [10.0],
-    'flexiblity': [25],
+    'flexiblity': [0.01, 0.1, 0.5],
 }
 
 # constraints = {
@@ -87,7 +87,7 @@ def writeToFile(time_horizon, grid_size, secs, evs, passengers, petitions, energ
             if per.p_id == petition.passenger_id:
                 sec_id = per.sec_id
         allocation_status = -1
-        p_str = str(petition.petition_id)+ " " +str(sec_id)+" "+str(allocation_status)+"\n"+str(int(petition.time))+" "+\
+        p_str = str(petition.petition_id)+ " " +str(sec_id+1)+" "+str(allocation_status)+"\n"+str(int(petition.time))+" "+\
                 str(petition.pickup_x)+ " " +str(petition.pickup_y)+ " " + \
                 str(petition.drop_x) + " " +str(petition.drop_y)+" "+str(petition.early_start)+" "+ \
                 str(petition.late_start) + " " +str(petition.early_finish)+" "+str(petition.late_finish)+"\n"
@@ -123,8 +123,8 @@ def assignRealWorldConstraints(time_horizon, grid_size, num_sec, num_ev,
     time = 0
     communities, neighbors = compute_neighbors.divide_and_compute_neighbors(grid_size, num_sec, connections[0])
     num_sec = len(communities)
-    print(communities)
-    print(neighbors)
+    print('Communities: ',communities)
+    print('Neighbors: ',neighbors)
 
     for i in range(num_passengers):
         p_id = i + 1
@@ -198,7 +198,7 @@ def assignRealWorldConstraints(time_horizon, grid_size, num_sec, num_ev,
             else:
                 if total_energy_produced >= battery_capacity:
                     is_released = True
-                    release_time = 1
+                    release_time = 0
                     total_energy_produced -= battery_capacity
 
             if is_released is False:
@@ -292,8 +292,8 @@ def parseRealData(mode):
                                                    block_size, distances, mode, ev_factor, num_ev)
 
 def main():
-        modes = ['SPREAD']
-        # modes = ['START']
+        # modes = ['SPREAD']
+        modes = ['SPREAD', 'START']
         for dispatch_mode in modes:
             parseRealData(dispatch_mode)
 
