@@ -488,6 +488,7 @@ def parse_out_subproblem_instance(output_file_name,
 
     # 7. We close the file
     my_output_stream.close()
+    return EV_total_energy
 
 
 # -----------------------------------------------

@@ -90,7 +90,7 @@ def parse_in(input_file_name):
         Neighbors[sec_id] = []
 
     num_connections = int(my_input_stream.readline().strip())
-    for _ in range(num_connections):
+    for _ in range(num_connections+1):
         info = list(map(int, my_input_stream.readline().strip().split(" ")))
         Neighbors[info[0]].append(info[1])
         Neighbors[info[1]].append(info[0])
@@ -160,7 +160,7 @@ def parse_in(input_file_name):
 
         # II. Rest of the trip info
         # info = tuple(map(int, my_input_stream.readline().strip().split(" ")))
-        info = tuple(map(int, my_input_stream.readline().strip().split(",")))
+        info = tuple(map(int, my_input_stream.readline().strip().split(" ")))
 
         # III. We enter the tp in the dictionary
         TPs[ tp_id ] = [ info, SEC_id, EV_id ]

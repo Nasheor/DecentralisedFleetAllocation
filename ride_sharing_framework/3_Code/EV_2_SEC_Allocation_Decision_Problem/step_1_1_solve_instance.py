@@ -1179,7 +1179,7 @@ def solve_instance(input_file_name, output_file_name):
                                    )
 
     # 4. We parse the instance out
-    misc.parse_out_subproblem_instance(output_file_name,
+    total_energy = misc.parse_out_subproblem_instance(output_file_name,
                                        res,
                                        EVs,
                                        TPs,
@@ -1187,7 +1187,7 @@ def solve_instance(input_file_name, output_file_name):
                                       )
 
     # 5. We return res
-    return res
+    return res, total_energy
 
 
 # --------------------------------------------------------

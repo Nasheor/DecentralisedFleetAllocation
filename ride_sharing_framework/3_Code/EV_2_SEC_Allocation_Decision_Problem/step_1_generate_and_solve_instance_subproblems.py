@@ -169,7 +169,7 @@ def generate_and_solve_instance_subproblems(input_file_name,
 
                 # II. We solve the instance subproblem
                 try:
-                    num_trips_satisfied = step_1_1_solve_instance.solve_instance(instance_file_name, solution_file_name)
+                    num_trips_satisfied, total_energy = step_1_1_solve_instance.solve_instance(instance_file_name, solution_file_name)
                 except:
                     print(input_file_name + " failed")
                     num_trips_satisfied = -1
@@ -182,7 +182,7 @@ def generate_and_solve_instance_subproblems(input_file_name,
                 last_instance_trips_satisfied = num_trips_satisfied
 
             # 6.3.3. We write the result to the solution file
-            my_str = instance_file_name + ";" + str(last_instance_trips_satisfied) + "\n"
+            my_str = instance_file_name + ";" + str(last_instance_trips_satisfied) + ";"+str(total_energy)+"\n"
             solution_csv_stream.write(my_str)
 
     # 7. close the solution.csv file

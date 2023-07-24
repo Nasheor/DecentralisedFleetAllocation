@@ -96,7 +96,7 @@ if __name__ == '__main__':
     solution_file_name = "optimal_EV_2_SEC_allocation.csv"
     time_limit = 60
 
-    input_file_name = "../../4_Solutions/NYC/2_Instance_Subproblem_Solutions/subproblem_solutions.csv"
+    input_file_name = "../../4_Solutions/NYC/Instance_261_connections/2_Instance_Subproblem_Solutions/subproblem_solutions.csv"
     output_folder = "../../4_Solutions/NYC/3_Instance_Optimal_EV_2_SEC_Allocation/"
 
     if (len(sys.argv) > 1):

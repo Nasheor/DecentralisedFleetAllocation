@@ -11,8 +11,8 @@ import time
 def parse_initial_data():
 
     # Read the Input file
-    file = './ride_sharing_framework/2_Instances/Metropolis/Instance_to_solve/d_metropolis.in'
-    # file = './ride_sharing_framework/2_Instances/NYC/Instance_to_solve/input.in'
+    # file = './ride_sharing_framework/2_Instances/Metropolis/Instance_to_solve/d_metropolis.in'
+    file = './ride_sharing_framework/2_Instances/NYC/Instance_to_solve/input.in'
     (city, SECs, neighbors, EVs, TPs, TDs) = parse_in.parse_in(file)
     print(f"City Dimensions: {city[0]}X{city[1]}")
     # Getting the number of Vehicles and TPs for each SEC at the start of the simulation
@@ -58,14 +58,17 @@ def parse_initial_data():
         communities.append(c)
 
     # Reading the solutions file for getting the number of trips satisfied and energy consumed
-    # solutions_file = './ride_sharing_framework/4_Solutions/2_Instance_Subproblem_Solutions/subproblem_solutions.csv'
-    solutions_file = './ride_sharing_framework/4_Solutions/Metropolis/subproblem_solutions.csv'
+    solutions_file = './ride_sharing_framework/4_Solutions/NYC/subproblem_solutions.csv'
+    # solutions_file = './ride_sharing_framework/4_Solutions/Metropolis/subproblem_solutions.csv'
     requests_satisfied_data = {}
     with codecs.open(solutions_file, "r", encoding='utf-8') as f:
         data = f.readlines()
         for line in data:
             path, trips_satisfied, energy_consumed = line.strip().split(';')
-            requests_satisfied_data[path.split('/')[5].split('.')[0]] = (int(trips_satisfied), float(energy_consumed))
+            # Google Hashcode data
+            # requests_satisfied_data[path.split('/')[5].split('.')[0]] = (int(trips_satisfied), float(energy_consumed))
+            #NYC Dataset
+            requests_satisfied_data[path.split('/')[7].split('.')[0]] = (int(trips_satisfied), float(energy_consumed))
 
     num_evs = len(EVs.keys())
     return communities, num_evs, requests_satisfied_data, community_vehicles_petitions
@@ -91,14 +94,17 @@ if __name__ == '__main__':
     num_days = [5]
     # episodes = [10]
     # num_days = [10]
-    paths = ['./output/trips_environment/metropolis/normal_configs/Instance_1_47_connections/',
-             './output/energy_environment/metropolis/good_configs/Instance_1_47_connections/',
-             './output/deep_trips_environment/metropolis/good_configs/Instance_1_15_connections/',
-             './output/deep_energy_environment/metropolis/normal_configs/Instance_1_15_connections/']
-    optimal_paths = ['./output/trips_environment/metropolis/good_configs/Instance_1_47_connections/',
-                     './output/energy_environment/metropolis/good_configs/Instance_1_47_connections/',
-                     './output/deep_trips_environment/metropolis/good_configs/Instance_1_15_connections/',
-                     './output/deep_energy_environment/metropolis/normal_configs/Instance_1_15_connections/']
+    # paths = ['./output/trips_environment/metropolis/normal_configs/Instance_1_47_connections/',
+    #          './output/energy_environment/metropolis/good_configs/Instance_1_47_connections/',
+    #          './output/deep_trips_environment/metropolis/good_configs/Instance_1_15_connections/',
+    #          './output/deep_energy_environment/metropolis/normal_configs/Instance_1_15_connections/']
+    # optimal_paths = ['./output/trips_environment/metropolis/good_configs/Instance_1_47_connections/',
+    #                  './output/energy_environment/metropolis/good_configs/Instance_1_47_connections/',
+    #                  './output/deep_trips_environment/metropolis/good_configs/Instance_1_15_connections/',
+    #                  './output/deep_energy_environment/metropolis/normal_configs/Instance_1_15_connections/']
+
+    paths = ['./output/trips_environment/nyc/normal_configs/Instance_261_connections/' ]
+    optimal_paths = ['./output/trips_environment/nyc/good_configs/Instance_261_connections/']
 
     # for path in paths:
     #     if os.path.exists(path):
@@ -121,17 +127,17 @@ if __name__ == '__main__':
                         normal_total_trips_satisfied += requests_satisfied_data[from_community_key][0]
                         normal_total_energy_consumed += requests_satisfied_data[from_community_key][1]
 
-                    # start_time = time.time()
-                    # path = paths[0]+file_name
-                    # optimal_path = optimal_paths[0]+file_name
-                    # trips_env = TripsEnvironment(episode, num_day, communities, num_evs,
-                    #                              requests_satisfied_data, total_trips, total_energy, normal_total_trips_satisfied)
-                    # trips_env.compute_initial_states_and_rewards()
-                    # trips_env.compute_initial_trips_satisfied()
-                    # trips_env.run(alpha, gamma, epsilon)
-                    # end_time = time.time()
-                    # elapsed_time = end_time - start_time
-                    # trips_env.print_results(path, optimal_path, elapsed_time)
+                    start_time = time.time()
+                    path = paths[0]+file_name
+                    optimal_path = optimal_paths[0]+file_name
+                    trips_env = TripsEnvironment(episode, num_day, communities, num_evs,
+                                                 requests_satisfied_data, total_trips, total_energy, normal_total_trips_satisfied)
+                    trips_env.compute_initial_states_and_rewards()
+                    trips_env.compute_initial_trips_satisfied()
+                    trips_env.run(alpha, gamma, epsilon)
+                    end_time = time.time()
+                    elapsed_time = end_time - start_time
+                    trips_env.print_results(path, optimal_path, elapsed_time)
 
                     # start_time = time.time()
                     # path = paths[1]+file_name
@@ -161,21 +167,21 @@ if __name__ == '__main__':
                     # elapsed_time = end_time - start_time
                     # deep_trips_env.print_results(path,optimal_path, elapsed_time)
 
-                    start_time = time.time()
-                    csv_path = paths[3]+csv_file
-                    path = paths[3]+file_name
-                    optimal_path = optimal_paths[3] + file_name
-                    state_size = len(communities) * 4
-                    action_size = 2
-                    deep_energy_env = DeepEnergyEnvironment(episode, num_day, communities, num_evs,
-                                                          requests_satisfied_data,
-                                                          state_size, action_size,
-                                                            total_trips, total_energy,
-                                                            csv_path, alpha, gamma, normal_total_trips_satisfied)
-                    deep_energy_env.run()
-                    end_time = time.time()
-                    elapsed_time = end_time - start_time
-                    deep_energy_env.print_results(path,optimal_path, elapsed_time)
+                    # start_time = time.time()
+                    # csv_path = paths[3]+csv_file
+                    # path = paths[3]+file_name
+                    # optimal_path = optimal_paths[3] + file_name
+                    # state_size = len(communities) * 4
+                    # action_size = 2
+                    # deep_energy_env = DeepEnergyEnvironment(episode, num_day, communities, num_evs,
+                    #                                       requests_satisfied_data,
+                    #                                       state_size, action_size,
+                    #                                         total_trips, total_energy,
+                    #                                         csv_path, alpha, gamma, normal_total_trips_satisfied)
+                    # deep_energy_env.run()
+                    # end_time = time.time()
+                    # elapsed_time = end_time - start_time
+                    # deep_energy_env.print_results(path,optimal_path, elapsed_time)
 
                     # path = paths[4]+file_name
                     # path = paths[0]
