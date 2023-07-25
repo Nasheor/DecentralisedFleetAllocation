@@ -122,7 +122,7 @@ def my_main(input_file_name,
 # ---------------------------------------------------------------
 if __name__ == '__main__':
     # 1. We read the instance content
-    input_file_name = "../../2_Instances/Instance_to_solve/d_metropolis.in"
+    input_file_name = "../../2_Instances/Instance_to_solve/input.in"
     step_1_folder = "../../4_Solutions/1_Instance_Subproblems/"
     step_2_folder = "../../4_Solutions/2_Instance_Subproblem_Solutions/"
     step_2_file_name = "subproblem_solutions.csv"

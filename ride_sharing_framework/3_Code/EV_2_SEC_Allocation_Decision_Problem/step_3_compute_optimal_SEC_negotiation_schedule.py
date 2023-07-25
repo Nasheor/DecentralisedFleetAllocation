@@ -100,10 +100,10 @@ def compute_optimal_SEC_negotiation_schedule(input_file_name,
 # ---------------------------------------------------------------
 if __name__ == '__main__':
     # 1. We read the instance content
-    # input_file_name = "../../2_Instances/Metropolis/Instance_to_solve/d_metropolis.in"
+    # input_file_name = "../../2_Instances/Metropolis/Instance_to_solve/input.in"
     # output_folder = "../../4_Solutions/Metropolis/4_Instance_Optimal_SEC_Negotiation_Schedule/"
     solution_file_name = "optimal_SEC_negotiation_schedule.csv"
-    input_file_name = "../../2_Instances/NYC/Instance_to_solve/input.in"
+    input_file_name = "../../1_Instance_Generator/instances/Instance_to_solve/input.in"
     output_folder = "../../4_Solutions/NYC/4_Instance_Optimal_SEC_Negotiation_Schedule/"
     time_limit = 600
 

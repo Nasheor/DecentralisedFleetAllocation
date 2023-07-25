@@ -114,8 +114,8 @@ def my_main(input_file_name,
 # ---------------------------------------------------------------
 if __name__ == '__main__':
     # 1. We read the instance content
-    # input_file_name = "../../2_Instances/Metropolis/Instance_to_solve/d_metropolis.in"
-    input_file_name = "../../2_Instances/NYC/Instance_to_solve/input.in"
+    # input_file_name = "../../2_Instances/Metropolis/Instance_to_solve/input.in"
+    input_file_name = "../../1_Instance_Generator/instances/Instance_to_solve/input.in"
     # step_1_folder_1 = "../../4_Solutions/Metropolis/1_Instance_Subproblems/"
     step_1_folder_1 = "../../4_Solutions/NYC/1_Instance_Subproblems/"
     # step_1_folder_2 = "../../4_Solutions/Metropolis/2_Instance_Subproblem_Solutions/"

@@ -16,7 +16,7 @@ def read_input_file(file_path):
         # Read SECs Neighbor information
         total_num_connections = int(file.readline())
         sec_neighbors = {}
-        for _ in range(total_num_connections+1):
+        for _ in range(total_num_connections):
             sec_id, neighbor_sec_id = map(int, file.readline().split())
             sec_neighbors.setdefault(sec_id, []).append(neighbor_sec_id)
 
@@ -43,7 +43,7 @@ def read_input_file(file_path):
         tp_info = {}
         for _ in range(num_tps):
             tp_id, sec_id, ev_id = map(int, file.readline().split())
-            trip_info = tuple(map(int, file.readline().split(" ")))
+            trip_info = tuple(map(int, file.readline().split(",")))
             tp_info[tp_id] = {'sec_id': sec_id, 'ev_id': ev_id, 'trip_info': trip_info}
 
     return (city_max_x_location, city_max_y_location,simulation_time_horizon, num_secs, sec_info,total_num_connections,
@@ -102,49 +102,49 @@ if __name__ == '__main__':
         num += 0.1
     print(connections_rate)
     # GHC dataset
-    # input_file_path = '../2_Instances/Metropolis/Instance_to_solve/d_metropolis.in'
-    # instances_folder = '../2_Instances/Metropolis/'
+    input_file_path = '../2_Instances/Metropolis/Instance_to_solve/input.in'
+    instances_folder = '../2_Instances/Metropolis/'
 
     # NYC Dataset
-    input_file_path = '../2_Instances/NYC/Instance_to_solve/input.in'
-    instances_folder = '../2_Instances/NYC/'
+    # input_file_path = '../2_Instances/NYC/Instance_to_solve/input.in'
+    # instances_folder = '../2_Instances/NYC/'
     out_file = 'input.in'
     (city_max_x_location, city_max_y_location, simulation_time_horizon, num_secs, sec_info, total_num_connections,
      sec_neighbors, num_evs, ev_info, num_tps, tp_info) = read_input_file(input_file_path)
     print(sec_neighbors)
 
-    # for connection in connections_rate:
-    #     total_connections = int(num_secs * connection)
-    #     print(total_connections)
-    #     communities, community_neighbors = compute_neighbors.divide_and_compute_neighbors(city_max_x_location,
-    #                                                                                       num_secs, total_connections)
-    #
-    #     print(community_neighbors)
-    #     out_path = instances_folder + '/Instance_1_'+str(total_connections)+'_connections/'+out_file
-    #
-    #     output_directory = os.path.dirname(out_path)
-    #
-    #     # Create the directory if it doesn't exist
-    #     if os.path.exists(output_directory):
-    #         shutil.rmtree(output_directory)
-    #
-    #     # Create the directory
-    #     os.makedirs(output_directory)
-    #     write_output_file(out_path, city_max_x_location, city_max_y_location, simulation_time_horizon, sec_info,
-    #                       community_neighbors, ev_info, tp_info)
+    for connection in connections_rate:
+        total_connections = int(num_secs * connection)
+        print(total_connections)
+        communities, community_neighbors = compute_neighbors.divide_and_compute_neighbors(city_max_x_location,
+                                                                                          num_secs, total_connections)
 
-    total_connections = 1600
-    print(total_connections)
-    communities, community_neighbors = compute_neighbors.divide_and_compute_neighbors(city_max_x_location,
-                                                                                      num_secs, total_connections)
-    out_path = instances_folder + '/Instance_1_' + str(total_connections) + '_connections/' + out_file
+        print(community_neighbors)
+        out_path = instances_folder + '/Instance_1_'+str(total_connections)+'_connections/'+out_file
 
-    output_directory = os.path.dirname(out_path)
-    # Create the directory if it doesn't exist
-    if os.path.exists(output_directory):
-        shutil.rmtree(output_directory)
+        output_directory = os.path.dirname(out_path)
 
-    # Create the directory
-    os.makedirs(output_directory)
-    write_output_file(out_path, city_max_x_location, city_max_y_location, simulation_time_horizon, sec_info,
-                      community_neighbors, ev_info, tp_info)
+        # Create the directory if it doesn't exist
+        if os.path.exists(output_directory):
+            shutil.rmtree(output_directory)
+
+        # Create the directory
+        os.makedirs(output_directory)
+        write_output_file(out_path, city_max_x_location, city_max_y_location, simulation_time_horizon, sec_info,
+                          community_neighbors, ev_info, tp_info)
+
+    # total_connections = 1600
+    # print(total_connections)
+    # communities, community_neighbors = compute_neighbors.divide_and_compute_neighbors(city_max_x_location,
+    #                                                                                   num_secs, total_connections)
+    # out_path = instances_folder + '/Instance_1_' + str(total_connections) + '_connections/' + out_file
+    #
+    # output_directory = os.path.dirname(out_path)
+    # # Create the directory if it doesn't exist
+    # if os.path.exists(output_directory):
+    #     shutil.rmtree(output_directory)
+    #
+    # # Create the directory
+    # os.makedirs(output_directory)
+    # write_output_file(out_path, city_max_x_location, city_max_y_location, simulation_time_horizon, sec_info,
+    #                   community_neighbors, ev_info, tp_info)

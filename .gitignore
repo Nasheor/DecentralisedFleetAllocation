@@ -163,7 +163,6 @@ ride_sharing_framework/1_Instance_Generator/instances/
 ride_sharing_framework/1_Instance_Generator/analysis/
 #ride_sharing_framework/4_Solutions/
 #output/
-
 .DS_Store
 
 .idea/

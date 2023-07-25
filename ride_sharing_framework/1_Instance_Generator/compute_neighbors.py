@@ -87,7 +87,7 @@ if __name__ == '__main__':
     # Testing with a grid size 1000 grid and 256 communities
     grid_size = 10000
     num_communities = 16
-    connections = 47
+    connections = 5
     communities, neighbors = divide_and_compute_neighbors(grid_size, num_communities, connections)
     print(communities)
     print(neighbors)

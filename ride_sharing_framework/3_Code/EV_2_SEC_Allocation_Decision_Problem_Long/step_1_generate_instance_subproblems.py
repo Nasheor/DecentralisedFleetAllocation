@@ -160,7 +160,7 @@ if __name__ == '__main__':
     # input_file_name = "../../2_Instances/Instance_to_solve/d.in"
     # output_folder = "../../4_Solutions/1_Instance_Subproblems/"
 
-    input_file_name = "../../2_Instances/NYC/Instance_to_solve/input.in"
+    input_file_name = "../../1_Instance_Generator/instances/Instance_to_solve/input.in"
     output_folder = "../../4_Solutions/NYC/Instance_261_connections/1_Instance_Subproblems/"
 
     if (len(sys.argv) > 1):

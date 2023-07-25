@@ -90,7 +90,7 @@ def parse_in(input_file_name):
         Neighbors[sec_id] = []
 
     num_connections = int(my_input_stream.readline().strip())
-    for _ in range(num_connections+1):
+    for _ in range(num_connections):
         info = list(map(int, my_input_stream.readline().strip().split(" ")))
         Neighbors[info[0]].append(info[1])
         Neighbors[info[1]].append(info[0])
