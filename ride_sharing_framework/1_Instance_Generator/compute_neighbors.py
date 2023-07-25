@@ -49,43 +49,36 @@ def divide_and_compute_neighbors(n, k, connections):
         return neighbors
 
     communities, num_communities_row_col = divide_grid()
-    neighbors_diagnol = get_neighbors_with_diagonal(communities, num_communities_row_col)
-    total_connections = 0
-    computed_neighbors = {}
-    if connections <= 500:
-        for key in neighbors_diagnol.keys():
-            computed_neighbors[key] = []
-            neighbors_diagnol[key] = [item for item in neighbors_diagnol[key] if item > key or len(neighbors_diagnol[key]) == 1]
-            for item in neighbors_diagnol[key]:
-                total_connections += 1
-    else:
-        for key in neighbors_diagnol.keys():
-            for item in neighbors_diagnol[key]:
-                total_connections += 1
+    neighbors_diagonal = get_neighbors_with_diagonal(communities, num_communities_row_col)
+    total_connections = sum(len(neighbor_list) for neighbor_list in neighbors_diagonal.values())
 
+    # If the desired connections exceed the total possible connections, raise an error.
+    if connections > total_connections:
+        raise ValueError("The number of connections requested exceeds the total possible connections.")
+
+    # Populate the computed_neighbors dictionary with diagonal neighbors until all communities have enough neighbors.
+    computed_neighbors = {community_id: [] for community_id in range(1, k + 1)}
     connection_count = 0
     sec_id = 1
-    while connection_count <= connections:
-        if len(neighbors_diagnol[sec_id]) > 1:
-            if sec_id not in computed_neighbors.keys():
-                computed_neighbors[sec_id] = []
-            computed_neighbors[sec_id].append(neighbors_diagnol[sec_id].pop(0))
-            connection_count += 1
-        if sec_id != len(neighbors_diagnol.keys()):
+    while connection_count < connections:
+        if len(neighbors_diagonal[sec_id]) > 1:
+            neighbor = neighbors_diagonal[sec_id].pop(0)
+            if neighbor not in computed_neighbors[sec_id]:
+                computed_neighbors[sec_id].append(neighbor)
+                computed_neighbors[neighbor].append(sec_id)
+                connection_count += 1
+        if sec_id != k:
             sec_id += 1
         else:
             sec_id = 1
-    # print(total_connections)
-    # print(connection_count)
-    return communities, computed_neighbors
 
+    return communities, computed_neighbors
 
 if __name__ == '__main__':
     # Testing with a grid size 1000 grid and 256 communities
     grid_size = 1000
-    num_communities = 256
-    connections = 1600
+    num_communities = 16
+    connections = 30
     communities, neighbors = divide_and_compute_neighbors(grid_size, num_communities, connections)
     print(communities)
     print(neighbors)
-
