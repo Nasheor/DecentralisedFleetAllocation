@@ -160,7 +160,7 @@ def parse_in(input_file_name):
 
         # II. Rest of the trip info
         # info = tuple(map(int, my_input_stream.readline().strip().split(" ")))
-        info = tuple(map(int, my_input_stream.readline().strip().split(" ")))
+        info = tuple(map(int, my_input_stream.readline().strip().split(",")))
 
         # III. We enter the tp in the dictionary
         TPs[ tp_id ] = [ info, SEC_id, EV_id ]

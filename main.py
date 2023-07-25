@@ -1,4 +1,4 @@
-from utilities import parse_in, compute_neighbors
+from utilities import parse_in
 import codecs
 from Q_Environment import TripsEnvironment, EnergyEnvironment
 from Deep_Q_Environment import DeepTripsEnvironment, DeepEnergyEnvironment

@@ -48,6 +48,16 @@ def divide_and_compute_neighbors(n, k, connections):
 
         return neighbors
 
+    def swap_neighbors(neighbors, sec_id, neighbor_id):
+        sec_neighbors = neighbors[sec_id]
+        neighbor_neighbors = neighbors[neighbor_id]
+
+        sec_neighbors.remove(neighbor_id)
+        neighbor_neighbors.remove(sec_id)
+
+        sec_neighbors.append(neighbor_id)
+        neighbor_neighbors.append(sec_id)
+
     communities, num_communities_row_col = divide_grid()
     neighbors_diagonal = get_neighbors_with_diagonal(communities, num_communities_row_col)
     total_connections = sum(len(neighbor_list) for neighbor_list in neighbors_diagonal.values())
@@ -62,23 +72,22 @@ def divide_and_compute_neighbors(n, k, connections):
     sec_id = 1
     while connection_count < connections:
         if len(neighbors_diagonal[sec_id]) > 1:
-            neighbor = neighbors_diagonal[sec_id].pop(0)
-            if neighbor not in computed_neighbors[sec_id]:
-                computed_neighbors[sec_id].append(neighbor)
-                computed_neighbors[neighbor].append(sec_id)
-                connection_count += 1
-        if sec_id != k:
-            sec_id += 1
-        else:
+            neighbor_id = neighbors_diagonal[sec_id][0]
+            swap_neighbors(neighbors_diagonal, sec_id, neighbor_id)
+            computed_neighbors[sec_id].append(neighbor_id)
+            computed_neighbors[neighbor_id].append(sec_id)
+            connection_count += 1
+        sec_id += 1
+        if sec_id > k:
             sec_id = 1
 
     return communities, computed_neighbors
 
 if __name__ == '__main__':
     # Testing with a grid size 1000 grid and 256 communities
-    grid_size = 1000
+    grid_size = 10000
     num_communities = 16
-    connections = 30
+    connections = 47
     communities, neighbors = divide_and_compute_neighbors(grid_size, num_communities, connections)
     print(communities)
     print(neighbors)
