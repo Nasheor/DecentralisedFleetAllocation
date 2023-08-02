@@ -71,7 +71,7 @@ def divide_and_compute_neighbors(n, k, connections):
     connection_count = 0
     sec_id = 1
     while connection_count < connections:
-        if len(neighbors_diagonal[sec_id]) > 1:
+        if len(neighbors_diagonal[sec_id]) > 1 and sec_id < len(neighbors_diagonal):
             neighbor_id = neighbors_diagonal[sec_id][0]
             swap_neighbors(neighbors_diagonal, sec_id, neighbor_id)
             computed_neighbors[sec_id].append(neighbor_id)

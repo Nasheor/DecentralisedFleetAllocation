@@ -102,12 +102,12 @@ if __name__ == '__main__':
         num += 0.1
     print(connections_rate)
     # GHC dataset
-    input_file_path = '../2_Instances/Metropolis/Instance_to_solve/input.in'
-    instances_folder = '../2_Instances/Metropolis/'
+    # input_file_path = '../2_Instances/Metropolis/Instance_to_solve/input.in'
+    # instances_folder = '../2_Instances/Metropolis/'
 
     # NYC Dataset
-    # input_file_path = '../2_Instances/NYC/Instance_to_solve/input.in'
-    # instances_folder = '../2_Instances/NYC/'
+    input_file_path = '../2_Instances/NYC/Instance_to_solve/input.in'
+    instances_folder = '../2_Instances/NYC/'
     out_file = 'input.in'
     (city_max_x_location, city_max_y_location, simulation_time_horizon, num_secs, sec_info, total_num_connections,
      sec_neighbors, num_evs, ev_info, num_tps, tp_info) = read_input_file(input_file_path)

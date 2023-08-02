@@ -7,13 +7,14 @@ from Agents.Community import Community
 import os
 import shutil
 import time
+import pandas as pd
 
 def parse_initial_data(file):
 
     # Read the Input file
     # file = './ride_sharing_framework/2_Instances/Metropolis/Instance_to_solve/input.in'
     # file = './ride_sharing_framework/2_Instances/NYC/Instance_to_solve/input.in'
-    (city, SECs, neighbors, EVs, TPs, TDs) = parse_in.parse_in(file)
+    (city, SECs, neighbors, EVs, TPs, TDs, num_connections) = parse_in.parse_in(file)
     print(f"City Dimensions: {city[0]}X{city[1]}")
     # Getting the number of Vehicles and TPs for each SEC at the start of the simulation
     community_trips = {}
@@ -68,19 +69,21 @@ def parse_initial_data(file):
             # Google Hashcode data
             requests_satisfied_data[path.split('/')[5].split('.')[0]] = (int(trips_satisfied), float(energy_consumed))
             #NYC Dataset
-            #requests_satisfied_data[path.split('/')[7].split('.')[0]] = (int(trips_satisfied), float(energy_consumed))
+            # requests_satisfied_data[path.split('/')[7].split('.')[0]] = (int(trips_satisfied), float(energy_consumed))
 
     num_evs = len(EVs.keys())
-    return communities, num_evs, requests_satisfied_data, community_vehicles_petitions
+    return communities, num_evs, requests_satisfied_data, community_vehicles_petitions, neighbors, num_connections
 
 
 if __name__ == '__main__':
 
     dir_path = './ride_sharing_framework/2_Instances/Metropolis/'
-    out_path = './output/trips_environment/metropolis/'
+    out_path = './output/energy_environment/metropolis/'
     # dir_path = './ride_sharing_framework/2_Instances/NYC/'
+    # out_path = './output/trips_environment/nyc/'
     csv_file = out_path + 'metropolis_rl_solutions.xlsx'
-    data_to_append = create_summary_file.create_csv_file(csv_file, 'metropolis')
+    # csv_file = out_path + 'nyc_rl_solutions.xlsx'
+    data_to_append = create_summary_file.create_csv_file(csv_file, 'nyc')
 
     for root, dirs, files in os.walk(dir_path):
         for dir in dirs:
@@ -89,7 +92,7 @@ if __name__ == '__main__':
             if os.path.isfile(file_path):
                 # If 'input.in' exists, pass it to the function
                 # Run the Q Environment
-                communities, num_evs, requests_satisfied_data, community_vehicle_petitions = parse_initial_data(file_path)
+                communities, num_evs, requests_satisfied_data, community_vehicle_petitions, neighbors, num_connections = parse_initial_data(file_path)
                 total_trips = 0
                 total_energy = 0
                 for item in community_vehicle_petitions:
@@ -105,7 +108,8 @@ if __name__ == '__main__':
                 episodes = [5, 10]
                 num_days = [5]
 
-                out_dir = './output/trips_environment/metropolis/'+str(dir)
+                out_dir = './output/energy_environment/metropolis/'+str(dir)
+                # out_dir = './output/trips_environment/nyc/'+str(dir)
                 if os.path.exists(out_dir):
                     shutil.rmtree(out_dir)
                 os.makedirs(out_dir)
@@ -126,31 +130,32 @@ if __name__ == '__main__':
                                     normal_total_trips_satisfied += requests_satisfied_data[from_community_key][0]
                                     normal_total_energy_consumed += requests_satisfied_data[from_community_key][1]
 
-                                start_time = time.time()
-                                path = out_dir+'/'+file_name
-                                trips_env = TripsEnvironment(episode, num_day, communities, num_evs,
-                                                             requests_satisfied_data, total_trips, total_energy, normal_total_trips_satisfied)
-                                trips_env.compute_initial_states_and_rewards()
-                                trips_env.compute_initial_trips_satisfied()
-                                trips_env.run(alpha, gamma, epsilon)
-                                end_time = time.time()
-                                elapsed_time = end_time - start_time
-                                trips_env.print_results(path, csv_file, data_to_append, elapsed_time)
-
                                 # start_time = time.time()
-                                # path = paths[1]+file_name
-                                # optimal_path = optimal_paths[1]+file_name
-                                # energy_env = EnergyEnvironment(episode, num_day, communities, num_evs,
-                                #                                requests_satisfied_data, total_trips, total_energy, normal_total_trips_satisfied)
-                                # energy_env.compute_initial_states_and_rewards()
-                                # energy_env.compute_initial_trips_satisfied()
-                                # energy_env.run(alpha, gamma, epsilon)
+                                # path = out_dir+'/'+file_name
+                                # trips_env = TripsEnvironment(episode, num_day, communities, num_evs,
+                                #                              requests_satisfied_data, total_trips, total_energy, normal_total_trips_satisfied)
+                                # trips_env.compute_initial_states_and_rewards()
+                                # trips_env.compute_initial_trips_satisfied()
+                                # trips_env.run(alpha, gamma, epsilon)
                                 # end_time = time.time()
                                 # elapsed_time = end_time - start_time
-                                # energy_env.print_results(path, optimal_path, elapsed_time)
+                                # data_to_append = trips_env.print_results(path, csv_file, data_to_append, elapsed_time, num_connections)
+
+
+                                start_time = time.time()
+                                path =out_dir+'/'+file_name
+                                energy_env = EnergyEnvironment(episode, num_day, communities, num_evs,
+                                                               requests_satisfied_data, total_trips, total_energy, normal_total_trips_satisfied)
+                                energy_env.compute_initial_states_and_rewards()
+                                energy_env.compute_initial_trips_satisfied()
+                                energy_env.run(alpha, gamma, epsilon)
+                                end_time = time.time()
+                                elapsed_time = end_time - start_time
+                                data_to_append = energy_env.print_results(path, csv_file, data_to_append, elapsed_time, num_connections)
+
 
                                 # start_time = time.time()
-                                # csv_path = paths[2]+csv_file
+                                # path =out_dir+'/'+file_name
                                 # path = paths[2]+file_name
                                 # optimal_path = optimal_paths[1]+file_name
                                 # state_size = len(communities) * 4
@@ -163,7 +168,9 @@ if __name__ == '__main__':
                                 # deep_trips_env.run()
                                 # end_time = time.time()
                                 # elapsed_time = end_time - start_time
-                                # deep_trips_env.print_results(path,optimal_path, elapsed_time)
+                                # data_to_append = deep_trips_env.print_results(path, csv_file, data_to_append, elapsed_time, num_connections)
+    df = pd.DataFrame(data_to_append)
+    df.to_excel(csv_file, index=False)
 
                                 # start_time = time.time()
                                 # csv_path = paths[3]+csv_file

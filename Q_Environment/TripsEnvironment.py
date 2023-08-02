@@ -169,7 +169,7 @@ class TripsEnvironment:
                     self.q_table[i][self.states.index(current_state), self.actions.index(action)] = discounted_reward
 
 
-    def print_results(self, path, csv_file, data_to_append, elapsed_time):
+    def print_results(self, path, csv_file, data_to_append, elapsed_time, num_connections):
         # my_output_stream.write(f"Generating {path} took {elapsed_time} seconds\n")
         n_total_trips_satisfied = 0
         n_total_energy_consumed = 0
@@ -253,6 +253,10 @@ class TripsEnvironment:
             my_output_stream.write(f"Commmunity ID: {community.get_state()['id']}\n")
             my_output_stream.write(f"Available Vehicles: {community.get_state()['available_vehicles']}\n")
             total_trips_satisfied += community.get_state()['trips_satisfied']
+            csv_key = 'sec-'+str(community.get_state()['id'])+' Trips'
+            data_to_append[csv_key].append(community.get_state()['trips_satisfied'])
+            csv_key =  'sec-'+str(community.get_state()['id'])+' EVs'
+            data_to_append[csv_key].append(community.get_state()['available_vehicles'])
             total_energy_consumed += self.petitions_satisfied_energy_consumed[from_community_key][1]
             my_output_stream.write(
                 f"Total Trips: {community.get_state()['total_trips']}\tTrips Satisfied: {community.get_state()['trips_satisfied']}\n")
@@ -263,8 +267,8 @@ class TripsEnvironment:
         my_output_stream.write(f"\t\t\tTotal Trips Satisfied: {total_trips_satisfied}\n")
         my_output_stream.write(f"\t\t\tTotal Energy Consumed: {total_energy_consumed}\n")
         data_to_append['Total Energy Consumed'].append(total_energy_consumed)
-
-
+        data_to_append['Total Connections'].append(num_connections)
+        return data_to_append
 
     def reset(self):
         self.q_communities = copy.deepcopy(self.communities)

@@ -180,7 +180,8 @@ def parse_in(input_file_name):
            Neighbors,
            EVs,
            TPs,
-           TDs
+           TDs,
+           num_connections
           )
 
     # 6. We return res
